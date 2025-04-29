@@ -1,0 +1,9 @@
+Activer l'environnement virtuel
+cd back
+venv/Scripts/activate
+
+Installer les dépendances
+pip install -r requirements.txt
+
+Lancer le serveur
+python app.py

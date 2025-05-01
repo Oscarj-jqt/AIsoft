@@ -13,6 +13,7 @@ Une application qui permet d’analyser une image capturée (ex. GoPro pendant u
 - [x] Mise en place de la structure
 - [x] Création du fichier `.env` + configuration
 
+
 ### ⚙️ Phase 2 : Infrastructure
 
 - [ ] Dockerisation (Flask + MongoDB) – *D3*
@@ -35,4 +36,3 @@ Une application qui permet d’analyser une image capturée (ex. GoPro pendant u
 - [ ] Affichage résultat image + nom + prix – *D5*
 - [ ] Test complet de l’application – *D5 & D2*
 
----

@@ -5,6 +5,7 @@ Une application qui permet d’analyser une image capturée (ex. GoPro pendant u
 
 
 ## 📅 Planning par phases
+https://trello.com/b/MGjzE0wC/cloudsoft
 
 ### ✅ Phase 1 : Initialisation
 

@@ -1,0 +1,24 @@
+services:
+  backend:
+    build: .
+    container_name: flask_app
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/app
+    environment:
+      - MONGO_URL=mongodb://mongo:27017
+      - DB_NAME=cloudsoft_db
+    depends_on:
+      - mongo
+
+  mongo:
+    image: mongo:6.0
+    container_name: mongo_db
+    ports:
+      - "27017:27017"
+    volumes:
+      - ../mongo_data:/data/db
+
+volumes:
+  mongo_data:

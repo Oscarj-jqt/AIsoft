@@ -8,10 +8,11 @@ Une application qui permet d’analyser une image capturée (ex. GoPro pendant u
 
 ### ✅ Phase 1 : Initialisation
 
-- [x] Création du repo GitHub + branches (`main`, `back`, `front`, `infra`) – *Tous*
-- [x] Initialisation de Flask + `requirements.txt` – *D2*
-- [x] Mise en place du dossier MongoDB + fonction `get_database()` – *D1*
-- [x] Création du fichier `.env` + valeurs fictives – *D2*
+- [x] Création du repo GitHub + branches (`main`, `back`, `front`, `infra`) 
+- [x] Initialisation de Flask + `requirements.txt` 
+- [x] Mise en place de la structure
+- [x] Création du fichier `.env` + configuration
+
 
 ### ⚙️ Phase 2 : Infrastructure
 
@@ -23,7 +24,7 @@ Une application qui permet d’analyser une image capturée (ex. GoPro pendant u
 
 ### 🧠 Phase 3 : Développement Python
 
-- [ ] Route `/upload` avec réception de l’image – *D2*
+- [ ] Routes et API – *D2*
 - [ ] Traitement image avec OpenCV ou PIL – *D1*
 - [ ] Identification de l’arme via modèle IA pré-entraîné (CLIP / Hugging Face) – *D1*
 - [ ] Recherche des prix via API web ou scraping – *D2*
@@ -35,4 +36,3 @@ Une application qui permet d’analyser une image capturée (ex. GoPro pendant u
 - [ ] Affichage résultat image + nom + prix – *D5*
 - [ ] Test complet de l’application – *D5 & D2*
 
----

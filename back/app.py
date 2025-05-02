@@ -1,6 +1,7 @@
 from flask import Flask
 from pymongo import MongoClient
 from mongodb.config.connection_db import get_database
+import os
 
 
 app = Flask(__name__)

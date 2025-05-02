@@ -29,7 +29,11 @@ jobs:
       run: |
         pip install -r back/requirements.txt
 
+    - name: Attendre que Mongo soit prêt
+      run: |
+        sleep 10
+
     - name: Test de connexion MongoDB
       run: |
-        echo "MongoDB container lancé"
-        python back/app.py || true
+        MONGO_URL="mongodb://localhost:27017" DB_NAME=cloudsoft_db python back/app.py || true
+

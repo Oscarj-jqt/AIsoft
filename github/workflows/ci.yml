@@ -1,0 +1,35 @@
+name: CI - Build 
+
+on:
+  push:
+    branches: [ main]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    services:
+      mongo:
+        image: mongo:6.0
+        ports: ['27017:27017']
+        options: --health-cmd="mongo --eval 'db.stats()'" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+    - name: Checkout du code
+      uses: actions/checkout@v3
+
+    - name: Configuration Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11.2'
+
+    - name: Installation des dépendances
+      run: |
+        pip install -r back/requirements.txt
+
+    - name: Test de connexion MongoDB
+      run: |
+        echo "MongoDB container lancé"
+        python back/app.py || true

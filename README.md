@@ -2,6 +2,19 @@ CloudSoft
 
 Une application qui permet d’analyser une image capturée (ex. GoPro pendant une partie d’Airsoft), d’identifier l’arme et ses accessoires grâce à une IA, puis de rechercher et comparer les prix de cette arme sur le web.
 
+Activer l'environnement virtuel
+cd back
+venv/Scripts/activate
+
+Installer les dépendances
+cd back
+pip install -r requirements.txt
+
+Lancer le serveur avec Docker
+cd back
+docker-compose up --build
+
+
 
 
 ## 📅 Planning par phases

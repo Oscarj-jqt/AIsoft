@@ -17,7 +17,7 @@ https://trello.com/b/MGjzE0wC/cloudsoft
 
 ### ⚙️ Phase 2 : Infrastructure
 
-- [ ] Dockerisation (Flask + MongoDB) – *D3*
+- [ ] Dockerisation (Flask + MongoDB) 
 - [ ] Setup MongoDB volume (persistance) – *D3*
 - [ ] CI/CD simple avec GitHub Actions – *D4*
 - [ ] Déploiement Cloud (Railway / Render) – *D4*

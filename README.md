@@ -2,9 +2,28 @@ CloudSoft
 
 Une application qui permet d’analyser une image capturée (ex. GoPro pendant une partie d’Airsoft), d’identifier l’arme et ses accessoires grâce à une IA, puis de rechercher et comparer les prix de cette arme sur le web.
 
+## Infrastructure du projet
+
+### Dockerisation
+- Le projet est conteneurisé avec Docker :
+
+- Un service backend Flask
+
+- Une base de données MongoDB
+
+- Le backend se connecte à Mongo via :
+```bash
+MONGO_URL=mongodb://mongo:27017
+DB_NAME=cloudsoft_db
+```
+
 Lancer le serveur avec Docker
 cd back
+```bash
 docker-compose up --build
+```
+
+
 
 
 

@@ -1,9 +1,5 @@
-Activer l'environnement virtuel
-cd back
-venv/Scripts/activate
+Ajouter un Dockerfile pour le frontend (React/Vite/Autre) si vous en avez un.
 
-Installer les dépendances
-pip install -r requirements.txt
+Créer une image Docker du backend pour la CI/CD.
 
-Lancer le serveur
-python app.py
+ajouter la sécurité au repot dockerhub pour la préparation au déploiement

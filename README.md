@@ -1,39 +1,50 @@
 CloudSoft
 
-Une application qui permet d’analyser une image capturée (ex. GoPro pendant une partie d’Airsoft), d’identifier l’arme et ses accessoires grâce à une IA, puis de rechercher et comparer les prix de cette arme sur le web.
-
-
-
-## 📅 Planning par phases
 https://trello.com/b/MGjzE0wC/cloudsoft
 
-### ✅ Phase 1 : Initialisation
+Une application qui permet d’analyser une image capturée (ex. GoPro pendant une partie d’Airsoft), d’identifier l’arme et ses accessoires grâce à une IA, puis de rechercher et comparer les prix de cette arme sur le web.
 
-- [x] Création du repo GitHub + branches (`main`, `back`, `front`, `infra`) 
-- [x] Initialisation de Flask + `requirements.txt` 
-- [x] Mise en place de la structure
-- [x] Création du fichier `.env` + configuration
+## Infrastructure du projet
+
+### Dockerisation
+- Le projet est conteneurisé avec Docker :
+
+- Un service backend Flask
+
+- Une base de données MongoDB
+
+- Le backend se connecte à Mongo via :
+```bash
+MONGO_URL=mongodb://mongo:27017
+DB_NAME=cloudsoft_db
+```
+
+- Lancement de l'infrastructure depuis le dossier back/ :
+```bash
+docker-compose up --build
+```
+
+## CI/CD avec GitHub Actions et AZURE
 
 
-### ⚙️ Phase 2 : Infrastructure
+### Intégration Continue CI
+- Le projet CloudSoft utilise GitHub Actions pour automatiser les étapes suivantes à chaque push ou pull request sur la branche main :
 
-- [ ] Dockerisation (Flask + MongoDB) 
-- [ ] Setup MongoDB volume (persistance) – *D3*
-- [ ] CI/CD simple avec GitHub Actions – *D4*
-- [ ] Déploiement Cloud (Railway / Render) – *D4*
-- [ ] Documentation Infra (README) – *D4*
+- Vérification du code source.
 
-### 🧠 Phase 3 : Développement Python
+- Installation des dépendances Python.
 
-- [ ] Routes et API – *D2*
-- [ ] Traitement image avec OpenCV ou PIL – *D1*
-- [ ] Identification de l’arme via modèle IA pré-entraîné (CLIP / Hugging Face) – *D1*
-- [ ] Recherche des prix via API web ou scraping – *D2*
-- [ ] Enregistrement des résultats dans MongoDB – *D1*
+- Lancement d’un conteneur Mongo pour les tests.
 
-### 💻 Phase 4 : Frontend et Intégration
+- Lancement de l’application backend.
 
-- [ ] Interface d’accueil + upload image – *D5*
-- [ ] Affichage résultat image + nom + prix – *D5*
-- [ ] Test complet de l’application – *D5 & D2*
+### Déploiement Continu CD
+
+- Le projet est conçu pour être déployé automatiquement sur Microsoft Azure via GitHub Actions
+
+- L'image Docker du backend sera déployée automatiquement à chaque modification sur main
+
+- Le déploiement est sécurisé à l'aide de GitHub Secrets
+
+
 

@@ -5,7 +5,7 @@ def test_database():
     if db:
         try:
             weapons = list(db.Weapons.find())
-            print(f"Nombre de documents dans 'weapons' : {len(weapons)}")
+            print(f"Nombre de documents dans 'Weapons' : {len(weapons)}")
 
             users = list(db.Users.find())
             print(f"Nombre de documents dans 'Users' : {len(users)}")

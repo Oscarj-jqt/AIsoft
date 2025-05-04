@@ -1,4 +1,4 @@
-from back.mongodb.config.connection_db import get_database
+from mongodb.config.connection_db import get_database
 
 def initialize_collections():
     db = get_database()

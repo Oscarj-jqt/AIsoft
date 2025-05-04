@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, session, redirect, url_for, flash, request
-from back.mongodb.config.connection_db import get_database
+from mongodb.config.connection_db import get_database
 from bson.objectid import ObjectId
 from utils.decorators import login_required
 

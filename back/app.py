@@ -1,6 +1,6 @@
 from flask import Flask
 from mongodb.config.connection_db import get_database
-from back.api.routes import auth_bp 
+from api.routes.auth import auth_bp 
 
 app = Flask(__name__)
 

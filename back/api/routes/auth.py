@@ -1,7 +1,7 @@
 from flask import Blueprint, request, render_template, redirect, url_for, flash, session
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo.errors import DuplicateKeyError
-from back.mongodb.config.connection_db import get_database
+from mongodb.config.connection_db import get_database
 
 
 

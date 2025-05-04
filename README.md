@@ -14,12 +14,14 @@ Une application qui permet d’analyser une image capturée (ex. GoPro pendant u
 - Une base de données MongoDB
 
 - Le backend se connecte à Mongo via :
+
 ```bash
 MONGO_URL=mongodb://mongo:27017
 DB_NAME=cloudsoft_db
 ```
 
 - Lancement de l'infrastructure depuis le dossier back/ :
+
 ```bash
 docker-compose up --build
 ```
@@ -38,13 +40,10 @@ docker-compose up --build
 
 - Lancement de l’application backend.
 
-### Déploiement Continu CD
+### Déploiement Continu CD (en cours)
 
 - Le projet est conçu pour être déployé automatiquement sur Microsoft Azure via GitHub Actions
 
 - L'image Docker du backend sera déployée automatiquement à chaque modification sur main
 
 - Le déploiement est sécurisé à l'aide de GitHub Secrets
-
-
-

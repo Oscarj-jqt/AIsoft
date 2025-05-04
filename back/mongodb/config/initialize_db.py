@@ -1,10 +1,13 @@
-from mongodb.config.connection_db import get_database
+from connection_db import get_database
 
 def initialize_collections():
     db = get_database()
+    
+
     if db is not None:
         try:
             collections_to_create = ["Users", "Weapons"]
+            
 
             existing_collections = db.list_collection_names()
 
@@ -23,6 +26,7 @@ def initialize_collections():
 
         except Exception as e:
             print(f"Erreur lors de l'initialisation des collections : {e}")
+
 
 
 if __name__ == "__main__":

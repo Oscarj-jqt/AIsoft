@@ -36,8 +36,8 @@ jobs:
     - name: Azure WebApp Deploy
       run: |
         az webapp deploy \
-          --resource-group <your-resource-group> \
+          --resource-group cloudsoft-group \
           --name ${{ secrets.AZURE_WEBAPP_NAME }} \
-          --src-path ./docker-compose.yml
+          --src-path ./back/docker-compose.yml
       env:
         AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}

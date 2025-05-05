@@ -1,0 +1,43 @@
+name: Deploy to Azure App Service
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout the repository
+      uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Build Docker image
+      run: |
+        docker build -t ${{ secrets.DOCKER_USERNAME }}/cloudsoft-backend:latest .
+
+    - name: Push Docker image to Docker Hub
+      run: |
+        docker push ${{ secrets.DOCKER_USERNAME }}/cloudsoft-backend:latest
+
+    - name: Set up Azure CLI
+      uses: azure/setup-azure-cli@v1
+
+    - name: Azure WebApp Deploy
+      run: |
+        az webapp deploy \
+          --resource-group <your-resource-group> \
+          --name ${{ secrets.AZURE_WEBAPP_NAME }} \
+          --src-path ./docker-compose.yml
+      env:
+        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}

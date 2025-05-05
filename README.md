@@ -7,6 +7,7 @@ Une application qui permet d’analyser une image capturée (ex. GoPro pendant u
 ## Infrastructure du projet
 
 ### Dockerisation
+
 - Le projet est conteneurisé avec Docker :
 
 - Un service backend Flask

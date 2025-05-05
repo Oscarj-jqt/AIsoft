@@ -35,5 +35,5 @@ jobs:
 
     - name: Test de connexion MongoDB
       run: |
-        MONGO_URL="mongodb://localhost:27017" DB_NAME=cloudsoft_db python back/app.py || true
+        MONGO_URL="mongodb://mongo:27017" DB_NAME=cloudsoft_db python back/app.py || true
 

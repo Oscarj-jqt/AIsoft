@@ -1,10 +1,14 @@
 from datetime import datetime
-from flask import Blueprint, render_template, session, redirect, url_for, flash, request, jsonify
+from flask import Blueprint, render_template, redirect, url_for, flash, request
 from mongodb.config.connection_db import get_database
 from utils.decorators import login_required
-from bson.objectid import ObjectId
+import os
+from ultralytics import YOLO
 
+
+# route de téléchargement d'arme
 upload_bp = Blueprint('upload', __name__, template_folder='front/templates')
+
 
 db = get_database()
 users_collection = db["Users"]
@@ -34,11 +38,11 @@ def upload_weapon():
     image = request.files.get("image")
 
     # Vérifier que les champs obligatoires sont remplis
-    if not name or not brand or not model or not weapon_type or not description or not image:
+    if not name or not weapon_type or not description or not image:
         flash("Tous les champs doivent être remplis.", "warning")
         return redirect(url_for('upload.upload_weapon_form'))
 
-    # Gérer l'enregistrement de l'image
+    # L'enregistrement de l'image
     filename = None
     image_path = None
     if image:
@@ -71,3 +75,9 @@ def upload_weapon():
 
     flash("Arme créée avec succès.", "success")
     return redirect(url_for('upload.upload_weapon_form'))
+
+# route de détection d'arme, l'IA va analyser pour détecter l'arme et retourner ses caractéristiques
+detect_bp = Blueprint('detect', __name__, template_folder='front/templates')
+
+@detect_bp.route('/detect', methods=['POST'])
+@login_required

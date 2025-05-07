@@ -10,14 +10,19 @@ from ultralytics import YOLO
 UPLOAD_FOLDER = "front/cloudsoft/static/images"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-
 # route de téléchargement d'arme
 upload_bp = Blueprint('upload', __name__, template_folder='front/templates')
 
+# route de détection d'arme, l'IA va analyser pour détecter l'arme et retourner ses caractéristiques
+detect_bp = Blueprint('detect', __name__, template_folder='front/templates')
 
 db = get_database()
 users_collection = db["Users"]
 weapon_collection = db["Weapons"]
+
+# Chargement du modèle YOLOv11 pour la détection d'armes
+model = YOLO("yolo11n.pt") 
+
 
 @upload_bp.route('/upload', methods=['GET'])
 @login_required
@@ -56,9 +61,9 @@ def upload_weapon():
 
         ext = image.filename.split('.')[-1]
         filename = f"{uuid4()}.{ext}"
-        upload_folder = 'front/cloudsoft/static/images' 
-        os.makedirs(upload_folder, exist_ok=True)
-        image_path = os.path.join(upload_folder, filename)
+
+        os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+        image_path = os.path.join(UPLOAD_FOLDER, filename)
         image.save(image_path)
 
     new_weapon = {
@@ -81,11 +86,6 @@ def upload_weapon():
     flash("Arme créée avec succès.", "success")
     return redirect(url_for('upload.upload_weapon_form'))
 
-# route de détection d'arme, l'IA va analyser pour détecter l'arme et retourner ses caractéristiques
-detect_bp = Blueprint('detect', __name__, template_folder='front/templates')
-
-model = YOLO("yolo11n.pt") 
-
 
 @detect_bp.route('/detect', methods=['POST'])
 @login_required
@@ -96,21 +96,19 @@ def detect_weapon():
     image = request.files.get("image")
 
     # Vérifier que l'image est fournie
-    if not image in request.files:
+    if not image:
         flash("Aucune image reçue","Veuillez en télécharger une")
         return redirect(url_for('upload.upload_weapon_form'))
     
-    image_file = request.files['image']
-
-    if image_file.filename == '':
+    if image.filename == '':
         flash("Fichier vide.", "warning")
         return redirect(url_for('upload.upload_weapon_form'))
     
     
     # Sécuriser et sauvegarder l'image
-    filename = secure_filename(image_file.filename)
+    filename = secure_filename(image.filename)
     image_path = os.path.join(UPLOAD_FOLDER, filename)
-    image_file.save(image_path)
+    image.save(image_path)
 
     # Détection avec YOLOv11
     results = model(image_path)
@@ -127,7 +125,25 @@ def detect_weapon():
                 "confidence": round(confidence, 2)
             }) 
 
+    # Importation de l'image dans la base de données
+    new_weapon = {
+        "weapon": {
+            "name": detected_classes[0]["class"] if detected_classes else "Unknown",
+            "brand": "",
+            "model": "",
+            "type": "",
+            "price": None,
+            "detected_by_ai": True,
+            "image_path": image_path,
+            "description": "",
+            "created_at": datetime.utcnow()
+        }
+    }
+
+    weapon_collection.insert_one(new_weapon)       
+
     return jsonify({
-        "filename": filename,
-        "detected_objects": detected_classes
+        "filename": "Détection réussie et enregistrement effectué.",
+        "detected": detected_classes,
+        "saved_weapon": new_weapon["weapon"]
     })

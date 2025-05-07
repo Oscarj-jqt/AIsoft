@@ -79,5 +79,27 @@ def upload_weapon():
 # route de détection d'arme, l'IA va analyser pour détecter l'arme et retourner ses caractéristiques
 detect_bp = Blueprint('detect', __name__, template_folder='front/templates')
 
+model = YOLO("yolo11n.pt") 
+
+
 @detect_bp.route('/detect', methods=['POST'])
 @login_required
+def detect_weapon():
+    """
+    Traiter le formulaire de détection d'une arme.
+    """
+    image = request.files.get("image")
+
+    # Vérifier que l'image est fournie
+    if not image in request.files:
+        flash("Aucune image reçue","Veuillez en télécharger une")
+        return redirect(url_for('upload.upload_weapon_form'))
+    
+    image_file = request.files['image']
+
+    if image_file.filename == '':
+        flash("Fichier vide.", "warning")
+        return redirect(url_for('upload.upload_weapon_form'))
+    # Vérifier que le fichier est une image (proposition automatique)
+    # image_path = os.path.join('front/cloudsoft/static/images', image_file.filename)
+    # image_file.save(image_path) 

@@ -21,7 +21,7 @@ users_collection = db["Users"]
 weapon_collection = db["Weapons"]
 
 # Chargement du modèle YOLOv11 pour la détection d'armes
-model = YOLO("yolo11n.pt") 
+yolo_model = YOLO("yolo11n.pt") 
 
 
 @upload_bp.route('/upload', methods=['GET'])
@@ -119,7 +119,7 @@ def detect_weapon():
     image.save(image_path)
 
     # Détection avec YOLOv11
-    results = model(image_path)
+    results = yolo_model(image_path)
 
     # Extraction des objets détectés
     detected_classes = []

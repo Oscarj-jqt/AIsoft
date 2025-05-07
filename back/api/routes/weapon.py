@@ -1,9 +1,14 @@
 from datetime import datetime
-from flask import Blueprint, render_template, redirect, url_for, flash, request
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
+from werkzeug.utils import secure_filename
 from mongodb.config.connection_db import get_database
 from utils.decorators import login_required
 import os
 from ultralytics import YOLO
+
+# Dossier de stockage temporaire des images
+UPLOAD_FOLDER = "front/cloudsoft/static/images"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 
 # route de téléchargement d'arme
@@ -100,6 +105,29 @@ def detect_weapon():
     if image_file.filename == '':
         flash("Fichier vide.", "warning")
         return redirect(url_for('upload.upload_weapon_form'))
-    # Vérifier que le fichier est une image (proposition automatique)
-    # image_path = os.path.join('front/cloudsoft/static/images', image_file.filename)
-    # image_file.save(image_path) 
+    
+    
+    # Sécuriser et sauvegarder l'image
+    filename = secure_filename(image_file.filename)
+    image_path = os.path.join(UPLOAD_FOLDER, filename)
+    image_file.save(image_path)
+
+    # Détection avec YOLOv11
+    results = model(image_path)
+
+    # Extraction des objets détectés
+    detected_classes = []
+    for result in results:
+        for box in result.boxes:
+            class_id = int(box.cls[0])
+            confidence = float(box.conf[0])
+            class_name = result.names[class_id]
+            detected_classes.append({
+                "class": class_name,
+                "confidence": round(confidence, 2)
+            }) 
+
+    return jsonify({
+        "filename": filename,
+        "detected_objects": detected_classes
+    })

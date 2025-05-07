@@ -86,6 +86,14 @@ def upload_weapon():
     flash("Arme créée avec succès.", "success")
     return redirect(url_for('upload.upload_weapon_form'))
 
+@detect_bp.route('/detect', methods=['GET'])
+@login_required
+def detect_weapon_form():
+    """
+    Afficher le formulaire de détection d'une arme.
+    """
+    return render_template('detect_form.html')
+
 
 @detect_bp.route('/detect', methods=['POST'])
 @login_required

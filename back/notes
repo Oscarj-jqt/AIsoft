@@ -1,4 +1,4 @@
-Ajouter un Dockerfile pour le frontend (React/Vite/Autre) si vous en avez un.
+Ajouter un Dockerfile pour le frontend (React/Vite/Autre)
 
 Créer une image Docker du backend pour la CI/CD.
 

@@ -155,3 +155,13 @@ def detect_weapon():
         "detected": detected_classes,
         "saved_weapon": new_weapon["weapon"]
     })
+
+@detect_bp.route('/process', methods=['GET'])
+@login_required
+def process_weapon():
+    """
+    Traiter le formulaire de détection d'une arme.
+    """
+    return render_template('process_form.html')
+
+

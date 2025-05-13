@@ -14,13 +14,6 @@ Une application qui permet d’analyser une image capturée (ex. GoPro pendant u
 
 - Une base de données MongoDB
 
-- Le backend se connecte à Mongo via :
-
-```bash
-MONGO_URL=mongodb://mongo:27017
-DB_NAME=cloudsoft_db
-```
-
 - Lancement de l'infrastructure depuis le dossier back/ :
 
 ```bash

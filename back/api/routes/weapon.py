@@ -4,6 +4,7 @@ from werkzeug.utils import secure_filename
 from mongodb.config.connection_db import get_database
 from utils.decorators import login_required
 import os
+import cv2 as cv
 from ultralytics import YOLO
 
 # Dossier de stockage temporaire des images
@@ -23,7 +24,7 @@ weapon_collection = db["Weapons"]
 # Chargement du modèle YOLOv11 pour la détection d'armes
 yolo_model = YOLO("yolo11n.pt") 
 
-
+#Route de téléchargement d'arme
 @upload_bp.route('/upload', methods=['GET'])
 @login_required
 def upload_weapon_form():
@@ -86,6 +87,7 @@ def upload_weapon():
     flash("Arme créée avec succès.", "success")
     return redirect(url_for('upload.upload_weapon_form'))
 
+#Route de détection d'arme
 @detect_bp.route('/detect', methods=['GET'])
 @login_required
 def detect_weapon_form():
@@ -156,6 +158,7 @@ def detect_weapon():
         "saved_weapon": new_weapon["weapon"]
     })
 
+#Route de l'identification d'arme
 @detect_bp.route('/process', methods=['GET'])
 @login_required
 def process_weapon():
@@ -164,4 +167,38 @@ def process_weapon():
     """
     return render_template('process_form.html')
 
+@detect_bp.route('/process', methods=['POST'])
+@login_required
+def process_weapon_post():
+    """
+    Traiter le formulaire de traitement d'une arme avec OpenCV
+    """
+    image = request.files.get("image")
 
+    # Vérifier que l'image est fournie
+    if not image:
+        flash("Aucune image reçue","Veuillez en télécharger une")
+        return redirect(url_for('upload.upload_weapon_form'))
+    
+    if image.filename == '':
+        flash("Fichier vide.", "warning")
+        return redirect(url_for('upload.upload_weapon_form'))
+    
+    # Sécuriser et sauvegarder l'image
+    filename = secure_filename(image.filename)
+    image_path = os.path.join(UPLOAD_FOLDER, filename)
+    image.save(image_path)
+
+    # Traitement de l'image avec OpenCV (exemple : conversion en niveaux de gris)
+    img = cv.imread(image_path)
+    gray_img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+
+    # Enregistrer l'image traitée
+    processed_image_path = os.path.join(UPLOAD_FOLDER, f"processed_{filename}")
+    cv.imwrite(processed_image_path, gray_img)
+
+    return jsonify({
+        "filename": processed_image_path,
+        "message": "Image traitée avec succès."
+    })
+    

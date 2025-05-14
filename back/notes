@@ -1,5 +1,6 @@
-Ajouter un Dockerfile pour le frontend (React/Vite/Autre)
+Utilisation en temps réel :
+L’utilisateur prend une photo d’une arme d’airsoft → upload.
 
-Créer une image Docker du backend pour la CI/CD.
+Plus tard, il envoie une photo pour identification → process.
 
-ajouter la sécurité au repot dockerhub pour la préparation au déploiement
+Le système lui dit : "Arme reconnue : Glock 17 airsoft" en 1 seconde, sinon il passe à l’IA ou scraping.

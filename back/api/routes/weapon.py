@@ -6,7 +6,6 @@ from utils.decorators import login_required
 import os
 import cv2 as cv
 import numpy as np
-from ultralytics import YOLO
 
 # Dossier de stockage temporaire des images
 UPLOAD_FOLDER = "front/cloudsoft/static/images"
@@ -15,15 +14,13 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # route de téléchargement d'arme
 upload_bp = Blueprint('upload', __name__, template_folder='front/templates')
 
-# route de détection d'arme, l'IA va analyser pour détecter l'arme et retourner ses caractéristiques
-detect_bp = Blueprint('detect', __name__, template_folder='front/templates')
+#route de traitement d'arme
+process_bp = Blueprint('process', __name__, template_folder='front/templates')
 
 db = get_database()
 users_collection = db["Users"]
 weapon_collection = db["Weapons"]
 
-# Chargement du modèle YOLOv11 pour la détection d'armes
-yolo_model = YOLO("yolo11n.pt") 
 
 #Route de téléchargement d'arme
 @upload_bp.route('/upload', methods=['GET'])
@@ -96,79 +93,8 @@ def upload_weapon():
     flash("Arme créée avec succès.", "success")
     return redirect(url_for('upload.upload_weapon_form'))
 
-#Route de détection d'arme
-@detect_bp.route('/detect', methods=['GET'])
-@login_required
-def detect_weapon_form():
-    """
-    Afficher le formulaire de détection d'une arme.
-    """
-    return render_template('detect_form.html')
-
-
-@detect_bp.route('/detect', methods=['POST'])
-@login_required
-def detect_weapon():
-    """
-    Traiter le formulaire de détection d'une arme.
-    """
-    image = request.files.get("image")
-
-    # Vérifier que l'image est fournie
-    if not image:
-        flash("Aucune image reçue","Veuillez en télécharger une")
-        return redirect(url_for('upload.upload_weapon_form'))
-    
-    if image.filename == '':
-        flash("Fichier vide.", "warning")
-        return redirect(url_for('upload.upload_weapon_form'))
-    
-    
-    # Sécuriser et sauvegarder l'image
-    filename = secure_filename(image.filename)
-    image_path = os.path.join(UPLOAD_FOLDER, filename)
-    image.save(image_path)
-
-    # Détection avec YOLOv11
-    results = yolo_model(image_path)
-
-    # Extraction des objets détectés
-    detected_classes = []
-    for result in results:
-        for box in result.boxes:
-            class_id = int(box.cls[0])
-            confidence = float(box.conf[0])
-            class_name = result.names[class_id]
-            detected_classes.append({
-                "class": class_name,
-                "confidence": round(confidence, 2)
-            }) 
-
-    # Importation de l'image dans la base de données
-    new_weapon = {
-        "weapon": {
-            "name": detected_classes[0]["class"] if detected_classes else "Unknown",
-            "brand": "",
-            "model": "",
-            "type": "",
-            "price": None,
-            "detected_by_ai": True,
-            "image_path": image_path,
-            "description": "",
-            "created_at": datetime.utcnow()
-        }
-    }
-
-    weapon_collection.insert_one(new_weapon)       
-
-    return jsonify({
-        "filename": "Détection réussie et enregistrement effectué.",
-        "detected": detected_classes,
-        "saved_weapon": new_weapon["weapon"]
-    })
-
 #Route de l'identification d'arme
-@detect_bp.route('/process', methods=['GET'])
+@process_bp.route('/process', methods=['GET'])
 @login_required
 def process_weapon():
     """
@@ -176,7 +102,7 @@ def process_weapon():
     """
     return render_template('process_form.html')
 
-@detect_bp.route('/process', methods=['POST'])
+@process_bp.route('/process', methods=['POST'])
 @login_required
 def process_weapon_post():
     """

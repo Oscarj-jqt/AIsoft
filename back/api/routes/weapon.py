@@ -5,6 +5,7 @@ from mongodb.config.connection_db import get_database
 from utils.decorators import login_required
 import os
 import cv2 as cv
+import numpy as np
 from ultralytics import YOLO
 
 # Dossier de stockage temporaire des images
@@ -67,6 +68,13 @@ def upload_weapon():
         image_path = os.path.join(UPLOAD_FOLDER, filename)
         image.save(image_path)
 
+    # Traitement OpenCV : conversion en niveaux de gris et redimensionnement
+    img = cv2.imread(image_path)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    resized = cv2.resize(gray, (100, 100))
+    flattened_features = resized.flatten().tolist()
+    
+
     new_weapon = {
         "weapon": {
             "name": name,
@@ -78,7 +86,8 @@ def upload_weapon():
             "image_path": image_path,
             "description": description,
             "created_at": datetime.utcnow()
-        }
+        },
+        "image_features": flattened_features
     }
 
     # Insertion dans la base de données
@@ -171,34 +180,54 @@ def process_weapon():
 @login_required
 def process_weapon_post():
     """
-    Traiter le formulaire de traitement d'une arme avec OpenCV
+    Traitement OpenCV + matching avec base MongoDB
     """
     image = request.files.get("image")
+    if not image or image.filename == '':
+        flash("Image invalide.", "warning")
+        return redirect(url_for('upload.upload_weapon_form'))
 
-    # Vérifier que l'image est fournie
-    if not image:
-        flash("Aucune image reçue","Veuillez en télécharger une")
-        return redirect(url_for('upload.upload_weapon_form'))
-    
-    if image.filename == '':
-        flash("Fichier vide.", "warning")
-        return redirect(url_for('upload.upload_weapon_form'))
-    
-    # Sécuriser et sauvegarder l'image
+    # Sauvegarde locale de l’image
     filename = secure_filename(image.filename)
     image_path = os.path.join(UPLOAD_FOLDER, filename)
     image.save(image_path)
 
-    # Traitement de l'image avec OpenCV (exemple : conversion en niveaux de gris)
+    # Amélioration de l'image avec OpenCV
     img = cv.imread(image_path)
-    gray_img = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    processed_path = os.path.join(UPLOAD_FOLDER, f"processed_{filename}")
+    cv.imwrite(processed_path, gray)
 
-    # Enregistrer l'image traitée
-    processed_image_path = os.path.join(UPLOAD_FOLDER, f"processed_{filename}")
-    cv.imwrite(processed_image_path, gray_img)
+    # Feature extraction simple (resize + flatten pour prototype)
+    img_resized = cv.resize(gray, (100, 100)).flatten()
 
-    return jsonify({
-        "filename": processed_image_path,
-        "message": "Image traitée avec succès."
-    })
-    
+    # Matching dans MongoDB 
+    best_match = None
+    min_diff = float("inf")
+
+    for weapon in weapon_collection.find({"image_features": {"$exists": True}}):
+        db_features = np.array(weapon["image_features"])
+        diff = np.linalg.norm(img_resized - db_features)
+
+        if diff < min_diff and diff < 1000: 
+            min_diff = diff
+            best_match = weapon
+
+    if best_match:
+        return jsonify({
+            "match_found": True,
+            "weapon": {
+                "name": best_match["weapon"]["name"],
+                "brand": best_match["weapon"]["brand"],
+                "model": best_match["weapon"]["model"]
+            },
+            "confidence_score": round(100 - min_diff / 10, 2),
+            "processed_image": processed_path
+        })
+    else:
+        return jsonify({
+            "match_found": False,
+            "message": "Aucune correspondance trouvée dans la base.",
+            "next_step": "Utiliser la route /identify"
+        })
+

@@ -14,7 +14,7 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 # route de téléchargement d'arme
 upload_bp = Blueprint('upload', __name__, template_folder='front/templates')
 
-#route de traitement d'arme
+# route de traitement d'arme
 process_bp = Blueprint('process', __name__, template_folder='front/templates')
 
 db = get_database()
@@ -127,7 +127,7 @@ def process_weapon_post():
     # Feature extraction simple (resize + flatten pour prototype)
     img_resized = cv.resize(gray, (100, 100)).flatten()
 
-    # Matching dans MongoDB 
+    # Matching dans MongoDB , comparaison avec les images de la base
     best_match = None
     min_diff = float("inf")
 

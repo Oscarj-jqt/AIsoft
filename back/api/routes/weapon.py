@@ -17,12 +17,16 @@ upload_bp = Blueprint('upload', __name__, template_folder='front/templates')
 # route de traitement d'arme
 process_bp = Blueprint('process', __name__, template_folder='front/templates')
 
+# route d'identification d'arme
+identify_bp = Blueprint('identify', __name__, template_folder='front/templates')
+
+# Connexion à la base de données MongoDB et récupération des collections
 db = get_database()
 users_collection = db["Users"]
 weapon_collection = db["Weapons"]
 
 
-#Route de téléchargement d'arme
+# Téléchargement d'arme
 @upload_bp.route('/upload', methods=['GET'])
 @login_required
 def upload_weapon_form():
@@ -93,7 +97,7 @@ def upload_weapon():
     flash("Arme créée avec succès.", "success")
     return redirect(url_for('upload.upload_weapon_form'))
 
-#Route de l'identification d'arme
+# Traitement d'arme
 @process_bp.route('/process', methods=['GET'])
 @login_required
 def process_weapon():
@@ -118,13 +122,13 @@ def process_weapon_post():
     image_path = os.path.join(UPLOAD_FOLDER, filename)
     image.save(image_path)
 
-    # Amélioration de l'image avec OpenCV
+    # Amélioration de la qualité de l'image avec OpenCV
     img = cv.imread(image_path)
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     processed_path = os.path.join(UPLOAD_FOLDER, f"processed_{filename}")
     cv.imwrite(processed_path, gray)
 
-    # Feature extraction simple (resize + flatten pour prototype)
+    # Feature extraction simple
     img_resized = cv.resize(gray, (100, 100)).flatten()
 
     # Matching dans MongoDB , comparaison avec les images de la base
@@ -154,6 +158,15 @@ def process_weapon_post():
         return jsonify({
             "match_found": False,
             "message": "Aucune correspondance trouvée dans la base.",
-            "next_step": "Utiliser la route /identify"
+            "next_step": "Le matching n'a pas abouti. Utilisez la méthode d'identification"
         })
 
+
+# Identification d'arme
+@identify_bp.route('/identify', methods=['GET'])
+@login_required
+def identify_weapon():
+    """
+    Afficher le formulaire d'identification d'une arme.
+    """
+    return render_template('identify_form.html')

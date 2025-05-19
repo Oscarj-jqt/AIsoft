@@ -1,7 +1,9 @@
+import Home from "./components/Home";
+
 function App() {
   return (
-    <div>
-      <p className="">Hello world !</p>
+    <div className="min-h-screen bg-cover bg-center bg-no-repeat bg-black" style={{ }}>
+      <Home/>
     </div>
   );
 }

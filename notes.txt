@@ -1,4 +1,4 @@
-Parcours utilisateur dans ton application :
+Parcours utilisateur de CloudSoft :
 
 1. Authentification
 

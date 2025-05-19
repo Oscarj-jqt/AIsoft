@@ -1,5 +1,0 @@
-Ajouter un Dockerfile pour le frontend (React/Vite/Autre) si vous en avez un.
-
-Créer une image Docker du backend pour la CI/CD.
-
-ajouter la sécurité au repot dockerhub pour la préparation au déploiement

@@ -1,0 +1,29 @@
+Parcours utilisateur dans ton application :
+
+1. Authentification
+
+L'utilisateur se connecte (via /login) ou s'inscrit (via /signup).
+
+2. Téléversement de l'image via /upload
+
+Il remplit un formulaire avec des infos facultatives ou connues (nom, type, marque, prix…)
+
+Il téléverse une photo d’arme airsoft.
+
+L’image est stockée, et si tu as mis en place un système de base MongoDB, l’arme est ajoutée à la base.
+
+3. Traitement de l’image via /process
+
+L’utilisateur peut ensuite améliorer l’image (niveaux de gris, nettoyage, etc.)
+
+Le système tente un matching simple avec la base Mongo (ex. par similarité visuelle)
+
+➕ Si correspondance trouvée → identification immédiate.
+
+➖ Sinon → redirection vers la route /identify
+
+4. Identification plus poussée via /identify (si besoin)
+
+Utilisation possible d’un modèle IA léger ou API tierce.
+
+Détermination des caractéristiques précises de l’arme (nom, type, modèle, prix).

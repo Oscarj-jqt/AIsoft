@@ -165,8 +165,13 @@ def process_weapon_post():
 # Identification d'arme
 @identify_bp.route('/identify', methods=['GET'])
 @login_required
-def identify_weapon():
+def identify_weapon_form():
     """
     Afficher le formulaire d'identification d'une arme.
     """
     return render_template('identify_form.html')
+
+@identify_bp.route('/identify', methods=['POST'])
+@login_required
+def identify_weapon():
+    return

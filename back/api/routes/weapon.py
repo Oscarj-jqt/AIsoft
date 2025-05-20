@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, session
 from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
 from mongodb.config.connection_db import get_database
@@ -87,7 +87,7 @@ def upload_weapon():
             "image_path": image_path,
             "description": description,
             "created_at": datetime.utcnow(),
-            # "uploaded_by": ObjectId(current_user.id)
+            "uploaded_by": ObjectId(session['user_id'])
         },
         "image_features": flattened_features
     }

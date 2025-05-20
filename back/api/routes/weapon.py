@@ -1,5 +1,6 @@
 from datetime import datetime
 from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify
+from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
 from mongodb.config.connection_db import get_database
 from utils.decorators import login_required
@@ -50,7 +51,7 @@ def upload_weapon():
     description = request.form.get("description")
     image = request.files.get("image")
 
-    # Vérifier que les champs obligatoires sont remplis
+    # Validation des champs
     if not name or not weapon_type or not description or not image:
         flash("Tous les champs doivent être remplis.", "warning")
         return redirect(url_for('upload.upload_weapon_form'))
@@ -83,16 +84,24 @@ def upload_weapon():
             "model": model,
             "type": weapon_type,
             "price": float(price) if price else None,
-            "detected_by_ai": False,
             "image_path": image_path,
             "description": description,
-            "created_at": datetime.utcnow()
+            "created_at": datetime.utcnow(),
+            # "uploaded_by": ObjectId(current_user.id)
         },
         "image_features": flattened_features
     }
 
-    # Insertion dans la base de données
-    weapon_collection.insert_one(new_weapon)
+    result = weapon_collection.insert_one(new_weapon)
+    weapon_id = result.inserted_id
+
+
+    users_collection.update_one(
+    {"_id": ObjectId(session['user_id'])},
+    {"$push": {"uploaded_weapons": weapon_id}}
+)
+
+
 
     flash("Arme créée avec succès.", "success")
     return redirect(url_for('upload.upload_weapon_form'))

@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, requests, jsonify, session
 from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
 from mongodb.config.connection_db import get_database
@@ -180,7 +180,48 @@ def identify_weapon_form():
     """
     return render_template('identify_form.html')
 
+@identify_bp.route('/identify', methods=['GET'])
+@login_required
+def identify_weapon_form():
+    """
+    Afficher le formulaire d'identification d'une arme.
+    """
+    return render_template('identify_form.html')
+
 @identify_bp.route('/identify', methods=['POST'])
 @login_required
 def identify_weapon():
-    return
+    """
+    Traiter le formulaire d'identification d'une arme.
+    """
+
+    # Récupérer l'image de l'arme téléchargée
+
+    image = request.files.get("image")
+    if not image or image.filename == '':
+        flash("Image invalide.", "warning")
+        return redirect(url_for('upload.upload_weapon_form'))
+    
+    filename = secure_filename(image.filename)
+    image_path = os.path.join(UPLOAD_FOLDER, filename)
+    image.save(image_path)
+
+    # Envoie de l'image à l'API IA de reconnaissance d'arme
+    # URL avec HuggingFace
+    api_url = "https://api-inference.huggingface.co/models/username/model_name"
+    
+    files = {'image': open(image_path, 'rb')}
+
+    response = requests.post(api_url, files=files)
+    if response.status_code == 200:
+        data = response.json()
+        if data.get("match_found"):
+            weapon = data["weapon"]
+            confidence_score = data["confidence_score"]
+            processed_image = data["processed_image"]
+
+            return render_template('identify_result.html', weapon=weapon, confidence_score=confidence_score, processed_image=processed_image)
+        else:
+            flash(data.get("message", "Aucune correspondance trouvée."), "warning")
+    else:
+        flash("Erreur lors de l'appel à l'API IA.", "danger")

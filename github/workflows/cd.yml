@@ -33,7 +33,6 @@ jobs:
     - name: Set up Azure CLI
       uses: azure/setup-azure-cli@v1
 
-
     - name: Deploy Docker image to Azure Web App
       run: |
         az login --service-principal --username ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }} \

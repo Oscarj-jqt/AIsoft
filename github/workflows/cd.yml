@@ -44,3 +44,4 @@ jobs:
           --resource-group cloudsoft-group \
           --docker-custom-image-name ${{ secrets.DOCKER_USERNAME }}/cloudsoft-backend:latest \
           --docker-registry-server-url https://index.docker.io
+

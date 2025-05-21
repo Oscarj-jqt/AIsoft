@@ -1,0 +1,14 @@
+{
+    "weapon": {
+      "name": "",
+      "brand": "",
+      "model": "",
+      "type": "",                  
+      "price": null,
+      "image_path": "",
+      "description": "",
+      "created_at": "",
+      "user_id": ""
+    }
+  }
+  

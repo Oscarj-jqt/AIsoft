@@ -1,12 +1,14 @@
 import Home from "./components/Home";
-import Analyse from "./components/Analyze";
+import Download from "./components/Download";
+import { Route, Routes } from "react-router-dom";
+
 
 function App() {
   return (
-    <div className="min-h-screen bg-cover bg-center bg-no-repeat bg-gray-800" style={{ }}>
-      {/* <Home/> */}
-      {<Analyse/>}
-    </div>
+    <Routes>
+      <Route path="/" element={<Home />} />
+      <Route path="/download" element={<Download />} />
+    </Routes>
   );
 }
 

@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 // import { axios } from "axios"
 
 
@@ -8,11 +10,8 @@ const Home = () => {
     const [items, setItems] = useState([]);
     const [prices, setPrices] = useState([]);
 
-    const handleFile = (file) => {
-        if (!file) return
-        setFile(file)
-        setPreview(URL.createObjectURL(file))
-    }
+    const navigate = useNavigate();
+
 
     const handleDrop = (e) => {
         e.preventDefault()
@@ -27,6 +26,15 @@ const Home = () => {
         e.preventDefault()
     }
 
+    const handleFile = (file) => {
+        if (!file) return
+        setFile(file)
+        const previewUrl = URL.createObjectURL(file);
+        setPreview(previewUrl);
+
+        navigate("/download", { state: { file, preview: previewUrl } });
+    }
+
     const analyzeImage = async() => {
           if (!file) return
         const form = new FormData()
@@ -39,7 +47,7 @@ const Home = () => {
 
     return (
         <div className=" items-center justify-center min-h-screen p-6 ">
-            <h1 className="font-krona text-3xl text-white flex justify-center">ARMATUS</h1>
+            <h1 className="font-krona text-3xl text-white flex justify-center">AISOFT</h1>
             <div className="p-6 bg-black rounded-xl flex flex-col gap-4 max-w-lg mx-auto my-auto mt-28">
                 <div
                     onDrop={ handleDrop }
@@ -81,7 +89,8 @@ const Home = () => {
                     Analyse
                 </button>
             </div>
-            <div>
+            <div className="flex items-center gap-3">
+                <img src="/attention.svg" alt="attention" className="h-10 w-10 bg-white"/>
                 <p className="font-krona text-[#C00F0C] text-sm">Notre application est conçue exclusivement pour identifier des répliques d’armes de type airsoft.</p>
             </div>
         </div>

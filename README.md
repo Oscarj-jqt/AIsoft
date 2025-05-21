@@ -40,4 +40,4 @@ docker-compose up --build
 
 - L'image Docker du backend sera déployée automatiquement à chaque modification sur main
 
-- Le déploiement est sécurisé à l'aide de GitHub Secrets
+Test

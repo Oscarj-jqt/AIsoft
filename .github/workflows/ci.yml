@@ -31,9 +31,10 @@ jobs:
       - name: Vérifier que MongoDB est prêt avec pymongo
         run: |
           pip install pymongo
-          python -c "
+          cat <<EOF > check_mongo.py
 import time
 from pymongo import MongoClient
+
 for i in range(10):
     try:
         client = MongoClient('mongodb://mongo:27017', serverSelectionTimeoutMS=1000)
@@ -46,4 +47,5 @@ for i in range(10):
 else:
     print('Mongo n\'a pas démarré à temps')
     exit(1)
-"
+EOF
+          python check_mongo.py

@@ -104,7 +104,6 @@ def upload_weapon():
 )
 
 
-
     flash("Arme créée avec succès.", "success")
     return redirect(url_for('upload.upload_weapon_form'))
 
@@ -203,53 +202,53 @@ def identify_weapon():
         })
 
 
-    # Charger le pipeline de HuggingFace pour l'image-to-text
-    captioner = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
+    # # Charger le pipeline de HuggingFace pour l'image-to-text
+    # captioner = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
 
-    # Charger l'image à partir du chemin local (uploadé par l'utilisateur)
-    image = Image.open(image_path)
+    # # Charger l'image à partir du chemin local (uploadé par l'utilisateur)
+    # image = Image.open(image_path)
 
-    # Générer la description de l'image
-    caption = captioner(image)
+    # # Générer la description de l'image
+    # caption = captioner(image)
 
-    # Extraction du texte généré
-    generated_text = caption[0]['generated_text']
+    # # Extraction du texte généré
+    # generated_text = caption[0]['generated_text']
 
-    # Affichage du texte généré
-    flash(f"Texte généré : {generated_text}", "success")
+    # # Affichage du texte généré
+    # flash(f"Texte généré : {generated_text}", "success")
 
-    # On peut prendre ce texte généré et l'insérér dans la propriété "description" de l'arme
-    # ou l'utiliser pour d'autres traitements
-    # Par exemple, on peut l'enregistrer dans la base de données
-    # ou l'afficher à l'utilisateur
-    # Pour l'instant, on va juste l'afficher
-    return render_template('identify_weapon.html', generated_text=generated_text, image_path=image_path)
+    # # On peut prendre ce texte généré et l'insérér dans la propriété "description" de l'arme
+    # # ou l'utiliser pour d'autres traitements
+    # # Par exemple, on peut l'enregistrer dans la base de données
+    # # ou l'afficher à l'utilisateur
+    # # Pour l'instant, on va juste l'afficher
+    # return render_template('identify_weapon.html', generated_text=generated_text, image_path=image_path)
 
-    # Si aucune correspondance n'est trouvée, on redirige vers le formulaire
-    flash("Aucune correspondance trouvée.", "warning")
-    return redirect(url_for('upload.upload_weapon_form'))
+    # # Si aucune correspondance n'est trouvée, on redirige vers le formulaire
+    # flash("Aucune correspondance trouvée.", "warning")
+    # return redirect(url_for('upload.upload_weapon_form'))
 
-    # Envoie de l'image à l'API IA de reconnaissance d'arme
-    # URL avec HuggingFace
-    # api_url = "https://api-inference.huggingface.co/models/username/model_name"
+    # # Envoie de l'image à l'API IA de reconnaissance d'arme
+    # # URL avec HuggingFace
+    # # api_url = "https://api-inference.huggingface.co/models/username/model_name"
     
-    # files = {'image': open(image_path, 'rb')}
+    # # files = {'image': open(image_path, 'rb')}
 
-    # response = requests.post(api_url, files=files)
-    # if response.status_code == 200:
-    #     data = response.json()
-    #     if data.get("match_found"):
-    #         weapon = data["weapon"]
-    #         confidence_score = data["confidence_score"]
-    #         processed_image = data["processed_image"]
+    # # response = requests.post(api_url, files=files)
+    # # if response.status_code == 200:
+    # #     data = response.json()
+    # #     if data.get("match_found"):
+    # #         weapon = data["weapon"]
+    # #         confidence_score = data["confidence_score"]
+    # #         processed_image = data["processed_image"]
 
-    #         return render_template('identify_weapon.html', weapon=weapon, confidence_score=confidence_score, processed_image=processed_image)
-    #     else:
-    #         flash(data.get("message", "Aucune correspondance trouvée."), "warning")
-    # else:
-    #     flash("Erreur lors de l'appel à l'API IA.", "danger")
+    # #         return render_template('identify_weapon.html', weapon=weapon, confidence_score=confidence_score, processed_image=processed_image)
+    # #     else:
+    # #         flash(data.get("message", "Aucune correspondance trouvée."), "warning")
+    # # else:
+    # #     flash("Erreur lors de l'appel à l'API IA.", "danger")
 
-    # Charger le pipeline de HuggingFace pour l'image-to-text
+    # # Charger le pipeline de HuggingFace pour l'image-to-text
     
 
 # Enregistrement des blueprints

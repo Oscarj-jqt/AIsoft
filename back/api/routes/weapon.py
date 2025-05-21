@@ -7,6 +7,8 @@ from utils.decorators import login_required
 import os
 import cv2 as cv
 import numpy as np
+from transformers import pipeline
+from PIL import Image
 
 # Dossier de stockage temporaire des images
 UPLOAD_FOLDER = "front/cloudsoft/static/images"
@@ -71,9 +73,9 @@ def upload_weapon():
         image.save(image_path)
 
     # Traitement OpenCV : conversion en niveaux de gris et redimensionnement
-    img = cv2.imread(image_path)
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    resized = cv2.resize(gray, (100, 100))
+    img = cv.imread(image_path)
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    resized = cv.resize(gray, (100, 100))
     flattened_features = resized.flatten().tolist()
     
 
@@ -136,8 +138,38 @@ def process_weapon_post():
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     processed_path = os.path.join(UPLOAD_FOLDER, f"processed_{filename}")
     cv.imwrite(processed_path, gray)
+    
 
-    # Feature extraction simple
+# Identification d'arme
+@identify_bp.route('/identify', methods=['GET'])
+@login_required
+def identify_weapon_form():
+    """
+    Afficher le formulaire d'identification d'une arme.
+    """
+    return render_template('identify_form.html')
+
+@identify_bp.route('/identify', methods=['POST'])
+@login_required
+def identify_weapon():
+    """
+    Traiter le formulaire d'identification d'une arme.
+    """
+
+    image = request.files.get("image")
+    if not image or image.filename == '':
+        flash("Image invalide.", "warning")
+        return redirect(url_for('upload.upload_weapon_form'))
+    
+    filename = secure_filename(image.filename)
+    image_path = os.path.join(UPLOAD_FOLDER, filename)
+    image.save(image_path)
+
+
+    processed_path = os.path.join(UPLOAD_FOLDER, f"processed_{filename}")
+
+    img = cv.imread(image_path)
+    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     img_resized = cv.resize(gray, (100, 100)).flatten()
 
     # Matching dans MongoDB , comparaison avec les images de la base
@@ -171,57 +203,58 @@ def process_weapon_post():
         })
 
 
-# Identification d'arme
-@identify_bp.route('/identify', methods=['GET'])
-@login_required
-def identify_weapon_form():
-    """
-    Afficher le formulaire d'identification d'une arme.
-    """
-    return render_template('identify_form.html')
+    # Charger le pipeline de HuggingFace pour l'image-to-text
+    captioner = pipeline("image-to-text", model="Salesforce/blip-image-captioning-base")
 
-@identify_bp.route('/identify', methods=['GET'])
-@login_required
-def identify_weapon_form():
-    """
-    Afficher le formulaire d'identification d'une arme.
-    """
-    return render_template('identify_form.html')
+    # Charger l'image à partir du chemin local (uploadé par l'utilisateur)
+    image = Image.open(image_path)
 
-@identify_bp.route('/identify', methods=['POST'])
-@login_required
-def identify_weapon():
-    """
-    Traiter le formulaire d'identification d'une arme.
-    """
+    # Générer la description de l'image
+    caption = captioner(image)
 
-    # Récupérer l'image de l'arme téléchargée
+    # Extraction du texte généré
+    generated_text = caption[0]['generated_text']
 
-    image = request.files.get("image")
-    if not image or image.filename == '':
-        flash("Image invalide.", "warning")
-        return redirect(url_for('upload.upload_weapon_form'))
-    
-    filename = secure_filename(image.filename)
-    image_path = os.path.join(UPLOAD_FOLDER, filename)
-    image.save(image_path)
+    # Affichage du texte généré
+    flash(f"Texte généré : {generated_text}", "success")
+
+    # On peut prendre ce texte généré et l'insérér dans la propriété "description" de l'arme
+    # ou l'utiliser pour d'autres traitements
+    # Par exemple, on peut l'enregistrer dans la base de données
+    # ou l'afficher à l'utilisateur
+    # Pour l'instant, on va juste l'afficher
+    return render_template('identify_weapon.html', generated_text=generated_text, image_path=image_path)
+
+    # Si aucune correspondance n'est trouvée, on redirige vers le formulaire
+    flash("Aucune correspondance trouvée.", "warning")
+    return redirect(url_for('upload.upload_weapon_form'))
 
     # Envoie de l'image à l'API IA de reconnaissance d'arme
     # URL avec HuggingFace
-    api_url = "https://api-inference.huggingface.co/models/username/model_name"
+    # api_url = "https://api-inference.huggingface.co/models/username/model_name"
     
-    files = {'image': open(image_path, 'rb')}
+    # files = {'image': open(image_path, 'rb')}
 
-    response = requests.post(api_url, files=files)
-    if response.status_code == 200:
-        data = response.json()
-        if data.get("match_found"):
-            weapon = data["weapon"]
-            confidence_score = data["confidence_score"]
-            processed_image = data["processed_image"]
+    # response = requests.post(api_url, files=files)
+    # if response.status_code == 200:
+    #     data = response.json()
+    #     if data.get("match_found"):
+    #         weapon = data["weapon"]
+    #         confidence_score = data["confidence_score"]
+    #         processed_image = data["processed_image"]
 
-            return render_template('identify_result.html', weapon=weapon, confidence_score=confidence_score, processed_image=processed_image)
-        else:
-            flash(data.get("message", "Aucune correspondance trouvée."), "warning")
-    else:
-        flash("Erreur lors de l'appel à l'API IA.", "danger")
+    #         return render_template('identify_weapon.html', weapon=weapon, confidence_score=confidence_score, processed_image=processed_image)
+    #     else:
+    #         flash(data.get("message", "Aucune correspondance trouvée."), "warning")
+    # else:
+    #     flash("Erreur lors de l'appel à l'API IA.", "danger")
+
+    # Charger le pipeline de HuggingFace pour l'image-to-text
+    
+
+# Enregistrement des blueprints
+def register_routes(app):
+    app.register_blueprint(upload_bp)
+    app.register_blueprint(process_bp)
+    app.register_blueprint(identify_bp)
+

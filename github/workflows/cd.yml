@@ -33,11 +33,16 @@ jobs:
     - name: Set up Azure CLI
       uses: azure/setup-azure-cli@v1
 
-    - name: Azure WebApp Deploy
+
+    - name: Deploy Docker image to Azure Web App
       run: |
-        az webapp deploy \
-          --resource-group cloudsoft-group \
+        az login --service-principal --username ${{ fromJson(secrets.AZURE_CREDENTIALS).clientId }} \
+          --password ${{ fromJson(secrets.AZURE_CREDENTIALS).clientSecret }} \
+          --tenant ${{ fromJson(secrets.AZURE_CREDENTIALS).tenantId }}
+
+        az webapp config container set \
           --name ${{ secrets.AZURE_WEBAPP_NAME }} \
-          --src-path ./back/docker-compose.yml
-      env:
-        AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}
+          --resource-group cloudsoft-group \
+          --docker-custom-image-name ${{ secrets.DOCKER_USERNAME }}/cloudsoft-backend:latest \
+          --docker-registry-server-url https://index.docker.io
+

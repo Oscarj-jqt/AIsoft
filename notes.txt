@@ -28,3 +28,5 @@ Le système tente un matching simple avec la base Mongo
 Utilisation possible d’un modèle IA léger ou API tierce.
 
 Détermination des caractéristiques précises de l’arme (nom, type, modèle, prix).
+
+Ajouter ensuite d’autres tests (par exemple, lancement de ton app, tests unitaires, etc.) après la vérification de Mongo.

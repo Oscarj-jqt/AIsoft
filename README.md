@@ -29,3 +29,6 @@ docker-compose up --build
 ### Déploiement Continu CD
 
 - Le projet est conçu pour être déployé automatiquement sur Microsoft Azure via GitHub Actions
+
+Lien du déploiement 
+https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net

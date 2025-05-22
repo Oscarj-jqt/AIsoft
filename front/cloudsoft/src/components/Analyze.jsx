@@ -1,6 +1,6 @@
 import { useLocation } from "react-router-dom";
 
-const Download = () => {
+const Analyze = () => {
     const location = useLocation();
     const preview =  location.state?.preview
 
@@ -22,12 +22,18 @@ const Download = () => {
                 </div>
                 <div className="">
                     <button className="text-white border border-white rounded-md p-2">
-                        Téléchargé
+                        Analyze
                     </button>
                 </div>
              </div>
+            <div className="flex items-center gap-3">
+                <img src="/attention.svg" alt="attention" className="h-10 w-10 bg-white" />
+                <p className="font-krona text-[#C00F0C] text-sm">
+                    Notre application est conçue exclusivement pour identifier des répliques d’armes de type airsoft.
+                </p>
+            </div>
         </div>
     )
 }
 
-export default Download;
+export default Analyze;

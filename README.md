@@ -24,20 +24,8 @@ docker-compose up --build
 
 
 ### Intégration Continue CI
-- Le projet CloudSoft utilise GitHub Actions pour automatiser les étapes suivantes à chaque push ou pull request sur la branche main :
+- Le projet CloudSoft utilise GitHub Actions pour automatiser le code soure et les dépendances à chaque push ou pull request sur la branche main.
 
-- Vérification du code source.
-
-- Installation des dépendances Python.
-
-- Lancement d’un conteneur Mongo pour les tests.
-
-- Lancement de l’application backend.
-
-### Déploiement Continu CD (en cours)
+### Déploiement Continu CD
 
 - Le projet est conçu pour être déployé automatiquement sur Microsoft Azure via GitHub Actions
-
-- L'image Docker du backend sera déployée automatiquement à chaque modification sur main
-
-Test

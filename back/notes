@@ -1,6 +1,0 @@
-Utilisation en temps réel :
-L’utilisateur prend une photo d’une arme d’airsoft → upload.
-
-Plus tard, il envoie une photo pour identification → process.
-
-Le système lui dit : "Arme reconnue : Glock 17 airsoft" en 1 seconde, sinon il passe à l’IA ou scraping.

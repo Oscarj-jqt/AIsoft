@@ -7,6 +7,7 @@ profile_bp = Blueprint('profile', __name__, template_folder='front/templates')
 
 db = get_database()
 users_collection = db["Users"]
+weapon_collection = db["Weapons"]
 
 @profile_bp.route('/profile', methods=['GET'])
 @login_required
@@ -22,8 +23,12 @@ def profile():
     if not user:
         flash("Utilisateur introuvable.", "danger")
         return redirect(url_for('auth.login'))
+    
 
-    return render_template('profile.html', user=user)
+    uploaded_weapon_ids = user.get("uploaded_weapons", [])
+    uploaded_weapons = list(weapon_collection.find({"_id": {"$in": uploaded_weapon_ids}}))
+
+    return render_template('profile.html', user=user, uploaded_weapons=uploaded_weapons)
 
 
 @profile_bp.route('/profile/edit', methods=['GET', 'POST'])
@@ -55,3 +60,5 @@ def edit_profile():
             flash("Le champ pseudo ne peut pas être vide.", "warning")
 
     return render_template('edit_profile.html', user=user)
+
+

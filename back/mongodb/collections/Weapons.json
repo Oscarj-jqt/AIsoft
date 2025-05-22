@@ -5,10 +5,10 @@
       "model": "",
       "type": "",                  
       "price": null,
-      "detected_by_ai": false,
       "image_path": "",
       "description": "",
-      "created_at": ""
+      "created_at": "",
+      "user_id": ""
     }
   }
   

@@ -31,7 +31,7 @@ jobs:
         context: ./back
         file: ./back/Dockerfile
         push: true
-        tags: ${{ secrets.DOCKER_USERNAME }}/oscarjct0/cloudsoft:${{ github.sha }}
+        tags: username/cloudsoft:${{ github.sha }}
 
         
 

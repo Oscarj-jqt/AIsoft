@@ -2,6 +2,7 @@
     "user": 
         {
         "pseudo": "",
-        "password":""
+        "password":"",
+        "uploaded_weapons": []
     }
   }

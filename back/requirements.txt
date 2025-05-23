@@ -19,3 +19,4 @@ transformers==4.51.3
 torchvision==0.22.0
 torch==2.7.0
 pillow==11.2.1
+flask-cors==6.0.0

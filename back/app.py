@@ -1,8 +1,17 @@
 from flask import Flask
+from flask_cors import CORS
 from mongodb.config.connection_db import get_database
 from api.routes.auth import auth_bp 
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
+app.secret_key = os.getenv("SECRET_KEY","dev")
+
+CORS(app, supports_credentials=True)
+
 
 db = get_database()
 

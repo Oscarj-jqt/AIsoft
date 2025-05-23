@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash, session
+from flask import Blueprint, request, render_template, redirect, url_for, flash, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo.errors import DuplicateKeyError
 from mongodb.config.connection_db import get_database
@@ -10,54 +10,54 @@ auth_bp = Blueprint('auth', __name__, template_folder='front/templates')
 db = get_database()
 users_collection = db["Users"]
 
-@auth_bp.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        pseudo = request.form['pseudo']
-        password = request.form['password']
-        
+@auth_bp.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
 
-        try:
-            hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+    if not data:
+        return jsonify({"error": "Aucune donnée reçue"}), 400
 
-            user_data = {
-                "pseudo": pseudo,
-                "password": hashed_password,
-            }
+    pseudo = data.get("pseudo")
+    password = data.get("password")
 
-            users_collection.insert_one(user_data)
-            print(f"Nouvel utilisateur inscrit : {pseudo}")
-            flash('Inscription réussie ! Vous pouvez maintenant vous connecter.', 'success')
-            return redirect(url_for('auth.login'))
+    if not pseudo or not password:
+        return jsonify({"error": "Pseudo et mot de passe requis"}), 400
 
-        except DuplicateKeyError:
-            print(f"Erreur : Le pseudo '{pseudo}' est déjà utilisé.")
-            flash('Le pseudo est déjà utilisé. Veuillez en choisir un autre.', 'danger')
+    try:
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        user_data = {
+            "pseudo": pseudo,
+            "password": hashed_password,
+        }
 
-    return render_template('signup.html')
+        users_collection.insert_one(user_data)
+        print(f"Nouvel utilisateur inscrit : {pseudo}")
+        return jsonify({"message": "Inscription réussie"}), 201
+
+    except DuplicateKeyError:
+        print(f"Erreur : Le pseudo '{pseudo}' est déjà utilisé.")
+        return jsonify({"error": "Le pseudo est déjà utilisé."}), 409
 
 
-@auth_bp.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/login', methods=['POST'])
 def login():
     """
-    Route pour la connexion des utilisateurs.
+    Route pour la connexion des utilisateurs via JSON (depuis frontend React).
     """
-    if request.method == 'POST':
-        pseudo = request.form.get('pseudo')
-        password = request.form.get('password')
+    data = request.get_json()
+    pseudo = data.get('pseudo')
+    password = data.get('password')
 
-        user = users_collection.find_one({'pseudo': pseudo})
+    user = users_collection.find_one({'pseudo': pseudo})
 
-        if user and user['password'] and check_password_hash(user['password'], password):
-            session['user_id'] = str(user['_id'])
-            session['pseudo'] = user['pseudo']
-            flash("Connexion réussie !", "success")
-            return redirect(url_for('home'))
-        else:
-            flash("Échec de la connexion. Vérifiez vos identifiants.", "danger")
-            return redirect(url_for('auth.login'))
+    if user and user['password'] and check_password_hash(user['password'], password):
+        session['user_id'] = str(user['_id'])
+        session['pseudo'] = user['pseudo']
+        return jsonify({"message": "Connexion réussie"}), 200
+    else:
+        return jsonify({"error": "Identifiants invalides"}), 401
+
     
-    return render_template('login.html')
 
 
 @auth_bp.route('/logout', methods=['POST'])

@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 const Home = () => {
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
+
+    const [backendMessage, setBackendMessage] = useState("Connexion au back…");
 
     const navigate = useNavigate();
 
@@ -30,9 +33,18 @@ const Home = () => {
         navigate("/analyze", { state: { file, preview } });
     };
 
+    useEffect(() => {
+        fetch("http://127.0.0.1:5000/")
+            .then((res) => res.text())
+            .then((data) => setBackendMessage(data))
+            .catch((err) => setBackendMessage("Erreur : back injoignable"));
+    }, []);
+
     return (
         <div className="items-center justify-center min-h-screen p-6">
-            <h1 className="font-krona text-3xl text-white flex justify-center">AISOFT</h1>
+            <h1 className="font-krona text-3xl text-white flex justify-center">AIsoft</h1>
+            <p className="text-white text-sm mt-4 text-center">{backendMessage}</p>
+
             <div className="p-6 bg-black rounded-xl flex flex-col gap-4 max-w-lg mx-auto my-auto mt-28">
                 <div
                     onDrop={handleDrop}

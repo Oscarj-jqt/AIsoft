@@ -4,11 +4,7 @@ import { useNavigate } from "react-router-dom";
 const Register = () => {
   const [formData, setFormData] = useState({
     pseudo: "",
-    first_name: "",
-    last_name: "",
-    password: "",
-    age: "",
-    gender: "Male",
+    password: ""
   });
 
   const navigate = useNavigate();
@@ -41,8 +37,6 @@ const Register = () => {
         <form onSubmit={handleSubmit} className="space-y-6">
           {[
             { label: "Pseudo", name: "pseudo", type: "text" },
-            { label: "Prénom", name: "first_name", type: "text" },
-            { label: "Nom", name: "last_name", type: "text" },
             { label: "Mot de passe", name: "password", type: "password" },
           ].map(({ label, name, type }) => (
             <div key={name} className="flex justify-between items-center">

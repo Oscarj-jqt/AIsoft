@@ -54,8 +54,8 @@ def upload_weapon():
     image = request.files.get("image")
 
     # Validation des champs
-    if not name or not weapon_type or not description or not image:
-        flash("Tous les champs doivent être remplis.", "warning")
+    if not image:
+        flash("L'image est requise", "warning")
         return redirect(url_for('upload.upload_weapon_form'))
 
     # L'enregistrement de l'image

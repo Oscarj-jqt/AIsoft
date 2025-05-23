@@ -28,7 +28,7 @@ const Home = () => {
         setPreview(URL.createObjectURL(file));
     };
 
-    const goToDownload = () => {
+    const goToUpload = () => {
         if (!file || !preview) return;
         navigate("/analyze", { state: { file, preview } });
     };
@@ -86,7 +86,7 @@ const Home = () => {
                 )}
 
                 <button
-                    onClick={goToDownload}
+                    onClick={goToUpload}
                     disabled={!preview}
                     className={`px-4 py-2 rounded-lg font-krona border ${
                         preview
@@ -94,7 +94,7 @@ const Home = () => {
                             : "bg-gray-400 text-gray-200 border-gray-300 cursor-not-allowed"
                     }`}
                 >
-                    Download
+                    Upload
                 </button>
             </div>
 

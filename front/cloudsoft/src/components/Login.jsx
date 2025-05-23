@@ -6,15 +6,31 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // ⚠️ Ici, ajoute ta logique d'authentification
-    console.log("Connexion avec :", { pseudo, password });
+  try {
+    const response = await fetch("http://localhost:5000/login", {
+      method: "POST",
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ pseudo, password }),
+    });
 
-    // Exemple de redirection après connexion
-    navigate("/home");
-  };
+    if (response.ok) {
+      console.log("Connexion réussie !");
+      navigate("/home");
+    } else {
+      const errorData = await response.json();
+      alert(errorData.error || "Erreur lors de la connexion.");
+    }
+  } catch (error) {
+    console.error("Erreur réseau:", error);
+    alert("Erreur réseau. Veuillez réessayer.");
+  }
+};
 
   return (
     <main className="flex justify-center items-center flex-1 px-4 relative min-h-screen">

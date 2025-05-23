@@ -1,13 +1,20 @@
 import Home from "./components/Home";
-import Download from "./components/Download";
+import Analyze from "./components/Analyze";
+import Arme from "./components/Arme";
+import Login from "./components/Login";
+import Register from "./components/Register";
 import { Route, Routes } from "react-router-dom";
 
 
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/download" element={<Download />} />
+      <Route path="/" element={<Login />} />
+      <Route path="/analyze" element={<Analyze />} />
+      <Route path="/arme" element={<Arme />} />
+      <Route path="/home" element={<Home />}/>
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
     </Routes>
   );
 }

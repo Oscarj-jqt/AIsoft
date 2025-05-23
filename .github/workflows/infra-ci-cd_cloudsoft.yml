@@ -51,4 +51,4 @@ jobs:
         app-name: 'cloudsoft'
         slot-name: 'production'
         publish-profile: ${{ secrets.AzureAppService_PublishProfile_2b6d7369e3524268994d2a2b913ee8b0 }}
-        images: 'index.docker.io/${{ secrets.AzureAppService_ContainerUsername_143b59bf0750450d8ae8d6096cec398c }}/oscarjct0/cloudsoft:${{ github.sha }}'
+        images: 'index.docker.io/${{ secrets.DOCKER_USERNAME }}/cloudsoft:${{ github.sha }}'

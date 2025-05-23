@@ -1,11 +1,11 @@
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Download = () => {
+const Analyze = () => {
     const location = useLocation();
     const preview =  location.state?.preview
+    const navigate = useNavigate();
 
     return (
-
         <div className="items-center justify-center min-h-screen p-6">
             <h1 className="font-krona text-3xl text-white flex justify-center">AISOFT</h1>
             <div className="p-6 bg-black rounded-xl flex flex-col gap-4 max-w-lg mx-auto my-auto mt-28">
@@ -21,13 +21,22 @@ const Download = () => {
                 )}
                 </div>
                 <div className="">
-                    <button className="text-white border border-white rounded-md p-2">
-                        Téléchargé
+                    <button 
+                    className="text-white border border-white rounded-md p-2"
+                    onClick={() => navigate('/arme')}
+                    >
+                        Analyze
                     </button>
                 </div>
              </div>
+            <div className="flex items-center gap-3">
+                <img src="/attention.svg" alt="attention" className="h-10 w-10 bg-white" />
+                <p className="font-krona text-[#C00F0C] text-sm">
+                    Notre application est conçue exclusivement pour identifier des répliques d’armes de type airsoft.
+                </p>
+            </div>
         </div>
     )
 }
 
-export default Download;
+export default Analyze;

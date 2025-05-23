@@ -10,31 +10,33 @@ auth_bp = Blueprint('auth', __name__, template_folder='front/templates')
 db = get_database()
 users_collection = db["Users"]
 
-@auth_bp.route('/signup', methods=['GET', 'POST'])
-def signup():
-    if request.method == 'POST':
-        pseudo = request.form['pseudo']
-        password = request.form['password']
-        
+@auth_bp.route('/register', methods=['POST'])
+def register():
+    data = request.get_json()
 
-        try:
-            hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+    if not data:
+        return jsonify({"error": "Aucune donnée reçue"}), 400
 
-            user_data = {
-                "pseudo": pseudo,
-                "password": hashed_password,
-            }
+    pseudo = data.get("pseudo")
+    password = data.get("password")
 
-            users_collection.insert_one(user_data)
-            print(f"Nouvel utilisateur inscrit : {pseudo}")
-            flash('Inscription réussie ! Vous pouvez maintenant vous connecter.', 'success')
-            return redirect(url_for('auth.login'))
+    if not pseudo or not password:
+        return jsonify({"error": "Pseudo et mot de passe requis"}), 400
 
-        except DuplicateKeyError:
-            print(f"Erreur : Le pseudo '{pseudo}' est déjà utilisé.")
-            flash('Le pseudo est déjà utilisé. Veuillez en choisir un autre.', 'danger')
+    try:
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        user_data = {
+            "pseudo": pseudo,
+            "password": hashed_password,
+        }
 
-    return render_template('signup.html')
+        users_collection.insert_one(user_data)
+        print(f"Nouvel utilisateur inscrit : {pseudo}")
+        return jsonify({"message": "Inscription réussie"}), 201
+
+    except DuplicateKeyError:
+        print(f"Erreur : Le pseudo '{pseudo}' est déjà utilisé.")
+        return jsonify({"error": "Le pseudo est déjà utilisé."}), 409
 
 
 @auth_bp.route('/login', methods=['GET', 'POST'])

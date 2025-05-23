@@ -13,7 +13,7 @@ Il télécharge une photo d’arme airsoft.
 
 L’image est stockée et ajoutée à la base Mongo.
 
-3. Traitement de l’image via /process
+3. Traitement de l’image via /process, analyze
 
 L’utilisateur peut ensuite améliorer l’image (niveaux de gris, nettoyage, etc.)
 

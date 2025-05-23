@@ -59,7 +59,6 @@ def login():
 
     
 
-
 @auth_bp.route('/logout', methods=['POST'])
 def logout():
     if 'pseudo' in session:

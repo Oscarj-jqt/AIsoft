@@ -3,6 +3,12 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
 const Home = () => {
+    const [name, setName] = useState("");
+    const [brand, setBrand] = useState("");
+    const [model, setModel] = useState("");
+    const [type, setType] = useState("");
+    const [price, setPrice] = useState("");
+    const [description, setDescription] = useState("");
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
 
@@ -28,10 +34,37 @@ const Home = () => {
         setPreview(URL.createObjectURL(file));
     };
 
-    const goToUpload = () => {
-        if (!file || !preview) return;
-        navigate("/analyze", { state: { file, preview } });
-    };
+    const goToUpload = async () => {
+    if (!file || !preview) return;
+
+    const formData = new FormData();
+    formData.append("image", file);
+    formData.append("name", name);
+    formData.append("brand", brand);
+    formData.append("model", model);
+    formData.append("type", type);
+    formData.append("price", price);
+    formData.append("description", description);
+
+    try {
+        const res = await fetch("http://127.0.0.1:5000/upload", {
+            method: "POST",
+            credentials: "include", 
+            body: formData,
+        });
+
+        if (res.ok) {
+            alert("Upload réussi !");
+            navigate("/analyze", { state: { file, preview } });
+        } else {
+            const errorText = await res.text();
+            alert("Erreur à l'upload : " + errorText);
+        }
+    } catch (err) {
+        console.error(err);
+        alert("Erreur réseau");
+    }
+};
 
     useEffect(() => {
         fetch("http://127.0.0.1:5000/")
@@ -84,6 +117,13 @@ const Home = () => {
                         Vous devez mettre une image
                     </p>
                 )}
+
+                <input type="text" placeholder="Nom" onChange={(e) => setName(e.target.value)} className="input-style" />
+                <input type="text" placeholder="Marque" onChange={(e) => setBrand(e.target.value)} className="input-style" />
+                <input type="text" placeholder="Modèle" onChange={(e) => setModel(e.target.value)} className="input-style" />
+                <input type="text" placeholder="Type" onChange={(e) => setType(e.target.value)} className="input-style" />
+                <input type="number" placeholder="Prix" onChange={(e) => setPrice(e.target.value)} className="input-style" />
+                <textarea placeholder="Description" onChange={(e) => setDescription(e.target.value)} className="input-style" />
 
                 <button
                     onClick={goToUpload}

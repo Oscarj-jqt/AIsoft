@@ -1,8 +1,12 @@
 from flask import Flask
+from flask_cors import CORS
 from mongodb.config.connection_db import get_database
 from api.routes.auth import auth_bp 
 
 app = Flask(__name__)
+
+CORS(app)
+
 
 db = get_database()
 

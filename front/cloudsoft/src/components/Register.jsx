@@ -17,15 +17,33 @@ const Register = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = async (e) => {
+  e.preventDefault();
 
-    // ⚠️ Ici tu peux envoyer formData à ton backend
-    console.log("Inscription:", formData);
+  try {
+    const response = await fetch("http://127.0.0.1:5000/register", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
 
-    // Redirection exemple après inscription réussie
-    navigate("/home");
-  };
+    const data = await response.json();
+
+    if (response.ok) {
+      console.log("Inscription réussie :", data.message);
+      navigate("/login"); // ou /home
+    } else {
+      console.error("Erreur d'inscription :", data.error);
+      alert(data.error); // à remplacer plus tard par une UI propre
+    }
+  } catch (err) {
+    console.error("Erreur de réseau :", err);
+    alert("Le serveur est injoignable.");
+  }
+};
+
 
   return (
     <main className="flex justify-center items-center flex-1 px-4 relative min-h-screen">

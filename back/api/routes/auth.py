@@ -1,4 +1,4 @@
-from flask import Blueprint, request, render_template, redirect, url_for, flash, session
+from flask import Blueprint, request, render_template, redirect, url_for, flash, session, jsonify
 from werkzeug.security import generate_password_hash, check_password_hash
 from pymongo.errors import DuplicateKeyError
 from mongodb.config.connection_db import get_database
@@ -39,27 +39,25 @@ def register():
         return jsonify({"error": "Le pseudo est déjà utilisé."}), 409
 
 
-@auth_bp.route('/login', methods=['GET', 'POST'])
+@auth_bp.route('/login', methods=['POST'])
 def login():
     """
-    Route pour la connexion des utilisateurs.
+    Route pour la connexion des utilisateurs via JSON (depuis frontend React).
     """
-    if request.method == 'POST':
-        pseudo = request.form.get('pseudo')
-        password = request.form.get('password')
+    data = request.get_json()
+    pseudo = data.get('pseudo')
+    password = data.get('password')
 
-        user = users_collection.find_one({'pseudo': pseudo})
+    user = users_collection.find_one({'pseudo': pseudo})
 
-        if user and user['password'] and check_password_hash(user['password'], password):
-            session['user_id'] = str(user['_id'])
-            session['pseudo'] = user['pseudo']
-            flash("Connexion réussie !", "success")
-            return redirect(url_for('home'))
-        else:
-            flash("Échec de la connexion. Vérifiez vos identifiants.", "danger")
-            return redirect(url_for('auth.login'))
+    if user and user['password'] and check_password_hash(user['password'], password):
+        session['user_id'] = str(user['_id'])
+        session['pseudo'] = user['pseudo']
+        return jsonify({"message": "Connexion réussie"}), 200
+    else:
+        return jsonify({"error": "Identifiants invalides"}), 401
+
     
-    return render_template('login.html')
 
 
 @auth_bp.route('/logout', methods=['POST'])

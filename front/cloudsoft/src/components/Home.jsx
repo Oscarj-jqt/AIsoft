@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
+
 const Home = () => {
     const [name, setName] = useState("");
     const [brand, setBrand] = useState("");
@@ -47,7 +50,7 @@ const Home = () => {
     formData.append("description", description);
 
     try {
-        const res = await fetch("http://127.0.0.1:5000/upload", {
+        const res = await fetch(`${apiUrl}/upload`, {
             method: "POST",
             credentials: "include", 
             body: formData,
@@ -67,7 +70,7 @@ const Home = () => {
 };
 
     useEffect(() => {
-        fetch("http://127.0.0.1:5000/")
+        fetch(`${apiUrl}/`)
             .then((res) => res.text())
             .then((data) => setBackendMessage(data))
             .catch((err) => setBackendMessage("Erreur : back injoignable"));

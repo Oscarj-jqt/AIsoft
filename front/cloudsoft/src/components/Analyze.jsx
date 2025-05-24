@@ -2,8 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 
 const Analyze = () => {
     const location = useLocation();
-    const preview =  location.state?.preview
     const navigate = useNavigate();
+    const preview = location.state?.preview;
     const file = location.state?.file;
 
     const handleAnalyze = async () => {
@@ -18,14 +18,15 @@ const Analyze = () => {
         try {
             const res = await fetch("http://127.0.0.1:5000/process", {
                 method: "POST",
-                credentials: "include",
+                credentials: "include", // important si tu as un @login_required
                 body: formData,
             });
 
             if (res.ok) {
-                const data = await res.json();
+                const data = await res.json(); // ou .text() si tu retournes juste du texte
                 console.log("Résultat :", data);
 
+                // Optionnel : rediriger ou afficher le résultat
                 navigate('/arme', { state: { result: data } });
 
             } else {
@@ -51,7 +52,7 @@ const Analyze = () => {
                 </div>
                 <div>
                     <button
-                        className="text-white border-white p-2 px-4 py-2 rounded-lg font-krona border"
+                        className="text-white border border-white rounded-md p-2"
                         onClick={handleAnalyze}
                     >
                         Analyze
@@ -66,6 +67,6 @@ const Analyze = () => {
             </div>
         </div>
     );
-}
+};
 
 export default Analyze;

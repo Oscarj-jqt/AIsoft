@@ -1,6 +1,3 @@
-const apiUrl = import.meta.env.VITE_API_URL;
-
-
 const Arme = () => {
     return (
         <div items-center justify-center min-h-screen p-6>

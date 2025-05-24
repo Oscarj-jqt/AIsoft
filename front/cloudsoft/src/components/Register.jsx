@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-const apiUrl = import.meta.env.VITE_API_URL;
-
 const Register = () => {
   const [formData, setFormData] = useState({
     pseudo: "",
@@ -23,7 +21,7 @@ const Register = () => {
   e.preventDefault();
 
   try {
-    const response = await fetch(`${apiUrl}register`, {
+    const response = await fetch("http://127.0.0.1:5000/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

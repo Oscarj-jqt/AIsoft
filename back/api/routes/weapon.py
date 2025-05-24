@@ -1,5 +1,5 @@
 from datetime import datetime
-from flask import Blueprint, render_template, redirect, url_for, flash, request, requests, jsonify, session
+from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, session
 from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
 from mongodb.config.connection_db import get_database
@@ -8,7 +8,7 @@ import os
 import cv2 as cv
 import numpy as np
 from transformers import pipeline
-from PIL import Image
+# from PIL import Image
 
 # Dossier de stockage temporaire des images
 UPLOAD_FOLDER = "front/cloudsoft/static/images"
@@ -72,7 +72,7 @@ def upload_weapon():
         image_path = os.path.join(UPLOAD_FOLDER, filename)
         image.save(image_path)
 
-    # Traitement OpenCV : conversion en niveaux de gris et redimensionnement
+    # Traitement Opencv : conversion en niveaux de gris et redimensionnement
     img = cv.imread(image_path)
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     resized = cv.resize(gray, (100, 100))
@@ -120,7 +120,7 @@ def process_weapon():
 @login_required
 def process_weapon_post():
     """
-    Traitement OpenCV + matching avec base MongoDB
+    Traitement Opencv + matching avec base MongoDB
     """
     image = request.files.get("image")
     if not image or image.filename == '':
@@ -132,7 +132,7 @@ def process_weapon_post():
     image_path = os.path.join(UPLOAD_FOLDER, filename)
     image.save(image_path)
 
-    # Amélioration de la qualité de l'image avec OpenCV
+    # Amélioration de la qualité de l'image avec Opencv
     img = cv.imread(image_path)
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     processed_path = os.path.join(UPLOAD_FOLDER, f"processed_{filename}")

@@ -36,8 +36,6 @@ jobs:
                return await coredemo.getIDToken()
            result-encoding: string
 
-      - name: Setup environment variables
-        run: echo "VITE_API_URL=${{ secrets.API_URL }}" >> $GITHUB_ENV
         
       - name: Build And Deploy
         id: builddeploy

@@ -1,4 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Analyze = () => {
     const location = useLocation();
@@ -16,17 +17,16 @@ const Analyze = () => {
         formData.append("image", file);
 
         try {
-            const res = await fetch("http://127.0.0.1:5000/process", {
+            const res = await fetch(`${apiUrl}/process`, {
                 method: "POST",
-                credentials: "include", // important si tu as un @login_required
+                credentials: "include", 
                 body: formData,
             });
 
             if (res.ok) {
-                const data = await res.json(); // ou .text() si tu retournes juste du texte
+                const data = await res.json();
                 console.log("Résultat :", data);
 
-                // Optionnel : rediriger ou afficher le résultat
                 navigate('/arme', { state: { result: data } });
 
             } else {

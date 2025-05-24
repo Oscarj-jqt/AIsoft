@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+const apiUrl = import.meta.env.VITE_API_URL;
+
 const Login = () => {
   const [pseudo, setPseudo] = useState("");
   const [password, setPassword] = useState("");
@@ -10,7 +12,7 @@ const Login = () => {
   e.preventDefault();
 
   try {
-    const response = await fetch("http://localhost:5000/login", {
+    const response = await fetch(`${apiUrl}/login`, {
       method: "POST",
       credentials: "include",
       headers: {

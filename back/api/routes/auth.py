@@ -39,8 +39,31 @@ def register():
         return jsonify({"error": "Le pseudo est déjà utilisé."}), 409
 
 
-@auth_bp.route('/login', methods=['POST'])
+@auth_bp.route('/login', methods=['GET', 'POST'])
 def login():
+    if request.method == 'GET':
+        return jsonify({"message": "Veuillez envoyer un POST pour vous connecter"}), 200
+
+    if request.method == 'POST':
+        data = request.get_json()
+        if not data:
+            return jsonify({"error": "No JSON data received"}), 400
+
+        pseudo = data.get('pseudo')
+        password = data.get('password')
+
+        if not pseudo or not password:
+            return jsonify({"error": "Pseudo and password required"}), 400
+
+        user = users_collection.find_one({'pseudo': pseudo})
+
+        if user and user.get('password') and check_password_hash(user['password'], password):
+            session['user_id'] = str(user['_id'])
+            session['pseudo'] = user['pseudo']
+            return jsonify({"message": "Connexion réussie"}), 200
+        else:
+            return jsonify({"error": "Pseudo ou mot de passe incorrect"}), 401
+
     """
     Route pour la connexion des utilisateurs via JSON (depuis frontend React).
     """

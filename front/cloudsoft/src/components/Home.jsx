@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
+
 const Home = () => {
     const [name, setName] = useState("");
     const [brand, setBrand] = useState("");

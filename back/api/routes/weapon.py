@@ -11,7 +11,7 @@ from transformers import pipeline
 # from PIL import Image
 
 # Dossier de stockage temporaire des images
-UPLOAD_FOLDER = "front/cloudsoft/static/images"
+UPLOAD_FOLDER = "../../front/cloudsoft/static/images"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # route de téléchargement d'arme
@@ -107,71 +107,37 @@ def upload_weapon():
     flash("Arme créée avec succès.", "success")
     return redirect(url_for('upload.upload_weapon_form'))
 
-# Traitement d'arme
-@process_bp.route('/process', methods=['GET'])
-@login_required
-def process_weapon():
-    """
-    Traiter le formulaire de détection d'une arme.
-    """
-    return render_template('process_form.html')
+# Analyse d'arme (traitement et identification)
 
-@process_bp.route('/process', methods=['POST'])
+@process_bp.route('/analyze', methods=['POST'])
 @login_required
-def process_weapon_post():
+def analyze_weapon():
     """
-    Traitement Opencv + matching avec base MongoDB
+    Traitement de l'image (Opencv) + Matching dans MongoDB.
+    Retourne les détails de l'arme identifiée (ou un message d'échec).
     """
     image = request.files.get("image")
     if not image or image.filename == '':
-        flash("Image invalide.", "warning")
-        return redirect(url_for('upload.upload_weapon_form'))
+        return jsonify({"error": "Image invalide."}), 400
 
-    # Sauvegarde locale de l’image
+    # 1. Sauvegarde temporaire
     filename = secure_filename(image.filename)
     image_path = os.path.join(UPLOAD_FOLDER, filename)
     image.save(image_path)
 
-    # Amélioration de la qualité de l'image avec Opencv
+    # 2. Traitement de l'image
     img = cv.imread(image_path)
+    if img is None:
+        return jsonify({"error": "Erreur lors du chargement de l'image."}), 500
+
     gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
     processed_path = os.path.join(UPLOAD_FOLDER, f"processed_{filename}")
     cv.imwrite(processed_path, gray)
-    
 
-# Identification d'arme
-@identify_bp.route('/identify', methods=['GET'])
-@login_required
-def identify_weapon_form():
-    """
-    Afficher le formulaire d'identification d'une arme.
-    """
-    return render_template('identify_form.html')
-
-@identify_bp.route('/identify', methods=['POST'])
-@login_required
-def identify_weapon():
-    """
-    Traiter le formulaire d'identification d'une arme.
-    """
-
-    image = request.files.get("image")
-    if not image or image.filename == '':
-        flash("Image invalide.", "warning")
-        return redirect(url_for('upload.upload_weapon_form'))
-    
-    filename = secure_filename(image.filename)
-    image_path = os.path.join(UPLOAD_FOLDER, filename)
-    image.save(image_path)
-
-
-    processed_path = os.path.join(UPLOAD_FOLDER, f"processed_{filename}")
-
-    img = cv.imread(image_path)
-    gray = cv.cvtColor(img, cv.COLOR_BGR2GRAY)
+    # 3. Préparation des features
     img_resized = cv.resize(gray, (100, 100)).flatten()
 
-    # Matching dans MongoDB , comparaison avec les images de la base
+    # 4. Matching dans MongoDB
     best_match = None
     min_diff = float("inf")
 
@@ -193,13 +159,14 @@ def identify_weapon():
             },
             "confidence_score": round(100 - min_diff / 10, 2),
             "processed_image": processed_path
-        })
+        }), 200
     else:
         return jsonify({
             "match_found": False,
             "message": "Aucune correspondance trouvée dans la base.",
-            "next_step": "Le matching n'a pas abouti. Utilisez la méthode d'identification"
-        })
+            "next_step": "Enrichir la base ou faire une identification manuelle.",
+            "processed_image": processed_path
+        }), 200
 
 
     # # Charger le pipeline de HuggingFace pour l'image-to-text

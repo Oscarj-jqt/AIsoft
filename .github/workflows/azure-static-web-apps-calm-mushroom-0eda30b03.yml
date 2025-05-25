@@ -36,7 +36,10 @@ jobs:
                return await coredemo.getIDToken()
            result-encoding: string
 
-        
+      - name: Build app
+        working-directory: front/cloudsoft
+        run: npm run build
+
       - name: Build And Deploy
         id: builddeploy
         uses: Azure/static-web-apps-deploy@v1

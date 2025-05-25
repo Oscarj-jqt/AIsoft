@@ -36,6 +36,10 @@ jobs:
                return await coredemo.getIDToken()
            result-encoding: string
 
+      - name: Install dependencies
+        working-directory: front/cloudsoft
+        run: npm install
+
       - name: Build app
         working-directory: front/cloudsoft
         run: npm run build

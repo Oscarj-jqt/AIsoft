@@ -10,7 +10,7 @@ auth_bp = Blueprint('auth', __name__, template_folder='front/templates')
 db = get_database()
 users_collection = db["Users"]
 
-@auth_bp.route('/register', methods=['POST'])
+@auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
     data = request.get_json()
 

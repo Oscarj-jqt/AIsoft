@@ -15,14 +15,9 @@ UPLOAD_FOLDER = "../../front/cloudsoft/static/images"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # route de téléchargement d'arme
-upload_bp = Blueprint('upload', __name__, template_folder='front/templates')
+upload_bp = Blueprint('upload', __name__)
 
-# route de traitement d'arme
-process_bp = Blueprint('process', __name__, template_folder='front/templates')
-
-# route d'identification d'arme
-identify_bp = Blueprint('identify', __name__, template_folder='front/templates')
-
+analyze_bp = Blueprint('analyze', __name__)
 # Connexion à la base de données MongoDB et récupération des collections
 db = get_database()
 users_collection = db["Users"]
@@ -109,7 +104,7 @@ def upload_weapon():
 
 # Analyse d'arme (traitement et identification)
 
-@process_bp.route('/analyze', methods=['POST'])
+@analyze_bp.route('/analyze', methods=['POST'])
 @login_required
 def analyze_weapon():
     """

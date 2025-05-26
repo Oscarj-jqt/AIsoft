@@ -1,4 +1,4 @@
-from connection_db import get_database
+from mongodb.config.connection_db import get_database
 
 def test_database():
     db = get_database()
@@ -10,6 +10,8 @@ def test_database():
             if "Weapons" in collections:
                 weapons = list(db.Weapons.find())
                 print(f"Nombre de documents dans 'Weapons' : {len(weapons)}")
+                for w in weapons:
+                    print(" -", w.get("weapon", {}).get("name", "Sans nom"))
             else:
                 print("'Weapons' collection non trouvée.")
             

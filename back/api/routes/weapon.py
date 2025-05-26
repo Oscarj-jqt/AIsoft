@@ -51,7 +51,7 @@ def upload_weapon():
     # Validation des champs
     if not image:
         flash("L'image est requise", "warning")
-        return redirect(url_for('upload.upload_weapon_form'))
+        return redirect(url_for('home'))
 
     # L'enregistrement de l'image
     filename = None
@@ -105,7 +105,7 @@ def upload_weapon():
 # Analyse d'arme (traitement et identification)
 
 @analyze_bp.route('/analyze', methods=['POST'])
-@login_required
+# @login_required
 def analyze_weapon():
     """
     Traitement de l'image (Opencv) + Matching dans MongoDB.

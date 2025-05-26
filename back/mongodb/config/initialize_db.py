@@ -1,6 +1,9 @@
-from connection_db import get_database
+from mongodb.config.connection_db import get_database
 
 def initialize_collections():
+    """
+    Initialise les collections 'Users' et 'Weapons' si elles n'existent pas.
+    """
     db = get_database()
     
 

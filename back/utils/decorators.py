@@ -1,5 +1,5 @@
 from functools import wraps
-from flask import session, flash, redirect, url_for
+from flask import session, jsonify
 from bson.objectid import ObjectId
 from mongodb.config.connection_db import get_database
 
@@ -13,14 +13,12 @@ def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if 'user_id' not in session:
-            flash("Vous devez être connecté pour accéder à cette page.", "warning")
-            return redirect(url_for('auth.login'))
-        
+            return jsonify({"error": "Authentification requise"}), 401
+
         user = users_collection.find_one({"_id": ObjectId(session["user_id"])})
         if not user:
-            flash("Votre session n'est plus valide. Veuillez vous reconnecter.", "warning")
-            session.clear() 
-            return redirect(url_for('auth.login'))
+            session.clear()
+            return jsonify({"error": "Session invalide"}), 401
         
         return f(*args, **kwargs)
     return decorated_function

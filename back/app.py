@@ -12,8 +12,11 @@ load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv("SECRET_KEY","dev")
+app.config['SESSION_COOKIE_SAMESITE'] = 'None'
+app.config['SESSION_COOKIE_SECURE'] = False
 
-CORS(app, supports_credentials=True)
+
+CORS(app, supports_credentials=True, origins=["http://localhost:5173"])
 
 
 db = get_database()
@@ -32,4 +35,5 @@ def index():
     return 'Welcome to AIsoft!'
 
 if __name__ == '__main__':
+    print("Flask démarre...")
     app.run(host='0.0.0.0', port=5000, debug=True)

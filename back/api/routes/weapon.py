@@ -1,13 +1,13 @@
 from datetime import datetime
-from flask import Blueprint, render_template, redirect, url_for, flash, request, jsonify, session
+from flask import Blueprint, redirect, url_for, flash, request, jsonify, session
 from bson.objectid import ObjectId
 from werkzeug.utils import secure_filename
 from mongodb.config.connection_db import get_database
-from utils.decorators import login_required
+# from utils.decorators import login_required
 import os
 import cv2 as cv
 import numpy as np
-from transformers import pipeline
+# from transformers import pipeline
 # from PIL import Image
 
 # Dossier de stockage temporaire des images
@@ -24,22 +24,26 @@ users_collection = db["Users"]
 weapon_collection = db["Weapons"]
 
 
+# Affichage des armes stockées dans la base de données
+@upload_bp.route('/weapons', methods=['GET'])
+def get_all_weapons():
+    db = get_database()
+    weapons = list(db["Weapons"].find())
+    for w in weapons:
+        w["_id"] = str(w["_id"])
+        w["weapon"]["uploaded_by"] = str(w["weapon"]["uploaded_by"])
+    return jsonify(weapons)
+
+
 # Téléchargement d'arme
-@upload_bp.route('/upload', methods=['GET'])
-@login_required
-def upload_weapon_form():
-    """
-    Afficher le formulaire de création d'une nouvelle arme.
-    """
-    return render_template('upload_form.html')
-
 @upload_bp.route('/upload', methods=['POST'])
-@login_required
+# @login_required
 def upload_weapon():            
-    """
-    Traiter le formulaire de création d'une nouvelle arme.
-    """
-
+    print("Requête reçue dans /upload")
+    print("Headers :", dict(request.headers))
+    print("Form data :", request.form)
+    print("Files :", request.files)
+    
     name = request.form.get("name")
     brand = request.form.get("brand")
     model = request.form.get("model")
@@ -47,6 +51,7 @@ def upload_weapon():
     price = request.form.get("price")
     description = request.form.get("description")
     image = request.files.get("image")
+    # user_id = request.form.get("user_id")  
 
     # Validation des champs
     if not image:
@@ -84,23 +89,23 @@ def upload_weapon():
             "image_path": image_path,
             "description": description,
             "created_at": datetime.utcnow(),
-            "uploaded_by": ObjectId(session['user_id'])
+            # "uploaded_by": ObjectId(user_id)
         },
         "image_features": flattened_features
     }
 
     result = weapon_collection.insert_one(new_weapon)
     weapon_id = result.inserted_id
+    
+    
 
+    # users_collection.update_one(
+    # {"_id": ObjectId(session['user_id'])},
+    # {"$push": {"uploaded_weapons": weapon_id}}
+# )
 
-    users_collection.update_one(
-    {"_id": ObjectId(session['user_id'])},
-    {"$push": {"uploaded_weapons": weapon_id}}
-)
+    return jsonify({"message": "Upload réussi", "weapon_id": str(weapon_id)}), 200
 
-
-    flash("Arme créée avec succès.", "success")
-    return redirect(url_for('upload.upload_weapon_form'))
 
 # Analyse d'arme (traitement et identification)
 
@@ -137,8 +142,10 @@ def analyze_weapon():
     min_diff = float("inf")
 
     for weapon in weapon_collection.find({"image_features": {"$exists": True}}):
-        db_features = np.array(weapon["image_features"])
+        db_features = np.array(weapon["image_features"], dtype=np.uint8)
         diff = np.linalg.norm(img_resized - db_features)
+
+        print(f"Comparaison avec {weapon['weapon']['name']} : diff = {diff}")
 
         if diff < min_diff and diff < 1000: 
             min_diff = diff
@@ -214,8 +221,7 @@ def analyze_weapon():
     
 
 # Enregistrement des blueprints
-def register_routes(app):
-    app.register_blueprint(upload_bp)
-    app.register_blueprint(process_bp)
-    app.register_blueprint(identify_bp)
+# def register_routes(app):
+#     app.register_blueprint(upload_bp)
+
 

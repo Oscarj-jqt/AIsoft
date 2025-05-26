@@ -39,6 +39,7 @@ const Home = () => {
     if (!file || !preview) return;
 
     const formData = new FormData();
+    // formData.append("user_id", userId);
     formData.append("image", file);
     formData.append("name", name);
     formData.append("brand", brand);

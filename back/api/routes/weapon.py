@@ -135,23 +135,35 @@ def analyze_weapon():
     cv.imwrite(processed_path, gray)
 
     # 3. Préparation des features
-    img_resized = cv.resize(gray, (100, 100)).flatten()
+    img_resized = cv.resize(gray, (100, 100)).flatten().tolist()
 
     # 4. Matching dans MongoDB
     best_match = None
     min_diff = float("inf")
+    threshold = 80  # seuil au-delà duquel on considère qu'il n'y a pas de correspondance fiable
 
     for weapon in weapon_collection.find({"image_features": {"$exists": True}}):
         db_features = np.array(weapon["image_features"], dtype=np.uint8)
+
         diff = np.linalg.norm(img_resized - db_features)
 
         print(f"Comparaison avec {weapon['weapon']['name']} : diff = {diff}")
 
-        if diff < min_diff and diff < 1000: 
+        if diff < min_diff:
             min_diff = diff
             best_match = weapon
 
-    if best_match:
+    if min_diff < 30:
+        note = "Excellent match"
+    elif min_diff < 60:
+        note = "Match probable"
+    elif min_diff < 100:
+        note = "Match douteux"
+    else:
+        note = "Aucun match"
+
+    # Après avoir trouvé le meilleur match, vérifier si le diff est suffisamment bas
+    if best_match and min_diff < threshold:
         return jsonify({
             "match_found": True,
             "weapon": {
@@ -163,12 +175,15 @@ def analyze_weapon():
             "processed_image": processed_path
         }), 200
     else:
+        print(f"Aucun match fiable trouvé. Meilleure différence : {min_diff}")
         return jsonify({
             "match_found": False,
             "message": "Aucune correspondance trouvée dans la base.",
+            "note": note,
             "next_step": "Enrichir la base ou faire une identification manuelle.",
             "processed_image": processed_path
         }), 200
+
 
 
     # # Charger le pipeline de HuggingFace pour l'image-to-text

@@ -32,6 +32,8 @@ const Analyze = () => {
             });
 
             const data = await res.json();
+            console.log("Résultat analyse reçu :", data);
+
             if (res.ok) {
                 setResult(data);
             } else {
@@ -71,14 +73,15 @@ const Analyze = () => {
 
                 {error && <p className="text-red-500 text-sm">{error}</p>}
 
-                {result && result.match_found && (
+                {result && (
                     <div className="text-white text-sm mt-2">
-                        <p><strong>Nom :</strong> {result.weapon.name}</p>
-                        <p><strong>Marque :</strong> {result.weapon.brand}</p>
-                        <p><strong>Modèle :</strong> {result.weapon.model}</p>
-                        <p><strong>Score de confiance :</strong> {result.confidence_score}%</p>
+                        <p><strong>Nom :</strong> {result.weapon?.name || "Inconnu"}</p>
+                        <p><strong>Marque :</strong> {result.weapon?.brand || "Inconnue"}</p>
+                        <p><strong>Modèle :</strong> {result.weapon?.model || "Inconnu"}</p>
+                        <p><strong>Score de confiance :</strong> {result.confidence_score ?? "Non disponible"}%</p>
                     </div>
                 )}
+
 
                 {result && !result.match_found && (
                     <p className="text-yellow-400 text-sm mt-2">{result.message}</p>

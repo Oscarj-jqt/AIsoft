@@ -19,14 +19,17 @@ L’utilisateur peut ensuite améliorer l’image (niveaux de gris, nettoyage, e
 
 Le système tente un matching simple avec la base Mongo 
 
+Extraction des caractéristiques (features) de l’image uploadée → img_resized ou flattened_features
+
+Pour chaque arme dans la base : récupérer les features db_features (par exemple weapon["image_features"])
+
+Calculer la distance entre les deux vecteurs de features (diff)
+
+Trouver l’arme avec la distance minimale
+
+Si cette distance est inférieure à ton seuil → match
+
+Afficher le nom/modèle/marque associés au meilleur match trouvé
+
 ➕ Si correspondance trouvée → identification immédiate.
 
-➖ Sinon → redirection vers la route /identify
-
-4. Identification plus poussée via /identify
-
-Utilisation possible d’un modèle IA léger ou API tierce.
-
-Détermination des caractéristiques précises de l’arme (nom, type, modèle, prix).
-
-Ajouter ensuite d’autres tests (par exemple, lancement de ton app, tests unitaires, etc.) après la vérification de Mongo.

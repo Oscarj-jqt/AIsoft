@@ -11,7 +11,7 @@ import numpy as np
 # from PIL import Image
 
 # Dossier de stockage temporaire des images
-UPLOAD_FOLDER = "../../front/cloudsoft/static/images"
+UPLOAD_FOLDER = "/app/static/images"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 # route de téléchargement d'arme
@@ -39,10 +39,6 @@ def get_all_weapons():
 @upload_bp.route('/upload', methods=['POST'])
 # @login_required
 def upload_weapon():            
-    print("Requête reçue dans /upload")
-    print("Headers :", dict(request.headers))
-    print("Form data :", request.form)
-    print("Files :", request.files)
     
     name = request.form.get("name")
     brand = request.form.get("brand")

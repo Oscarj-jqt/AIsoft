@@ -4,9 +4,11 @@ def test_database():
     db = get_database()
     if db is not None: 
         try:
-
+            # Script de reset de Weapons
             # db.Weapons.delete_many({})
             # print("Tous les documents de la collection 'Weapons' ont été supprimés.")
+
+            
             collections = db.list_collection_names()
             print(f"Collections disponibles : {collections}")
             

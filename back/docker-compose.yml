@@ -6,7 +6,7 @@ services:
       - "5000:5000"
     volumes:
       - .:/app
-      - ./front/cloudsoft/static/images:/app/static/images
+      - ./static/images:/app/static/images
     environment:
       - MONGO_URL=mongodb://mongo:27017
       - DB_NAME=cloudsoft_db

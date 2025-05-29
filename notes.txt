@@ -33,3 +33,4 @@ Afficher le nom/modèle/marque associés au meilleur match trouvé
 
 ➕ Si correspondance trouvée → identification immédiate.
 
+

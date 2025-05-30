@@ -7,4 +7,5 @@ static/images
 dataset/weapons/*
 !dataset/weapons/.gitkeep
 
-model/
+model/*
+!model/.gitkeep

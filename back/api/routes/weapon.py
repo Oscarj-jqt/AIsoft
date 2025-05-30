@@ -25,22 +25,48 @@ weapon_collection = db["Weapons"]
 MODEL_PATH = os.path.abspath(
     os.path.join(
         os.path.dirname(__file__),  
-        "..", "..", "dataset", "airsoft_resnet_model.h5"
+        "..", "..", "dataset", "aisoft_resnet_model.h5"
     )
 )
 model = load_model(MODEL_PATH)
 
 # Classe correspondante
-class_names = ['ak47', 'beretta', 'glock', 'revolver']
+class_names = ['AK47', 'Beretta', 'Glock', 'Revolver']
+
+# Dictionnaire de mapping
+category_mapping = {
+    'AK47': 'Fusil d’assaut',
+    'Beretta': 'Pistolet',
+    'Glock': 'Pistolet',
+    'Revolver': 'Revolver'
+}
 
 def predict_weapon_class(img_path):
+    # Charger et préparer l'image
+    img = keras_image.load_img(img_path, target_size=(224, 224))
+    x = keras_image.img_to_array(img)
+    x = np.expand_dims(x, axis=0)
+    x = preprocess_input(x)
+
+    # Prédiction
+    preds = model.predict(x)
+    predicted_index = np.argmax(preds)
+    predicted_class = class_names[predicted_index]
+    confidence = round(float(np.max(preds)) * 100, 2)
+
+
+    # Ajouter la catégorie
+    category = category_mapping.get(predicted_class, "Catégorie inconnue")
+
+    return predicted_class, category, confidence
+
+
     # Charger l'image au format attendu (224x224 pour ResNet50)
     img = keras_image.load_img(img_path, target_size=(224, 224))
     x = keras_image.img_to_array(img)
     x = np.expand_dims(x, axis=0)
     
     # Prétraitement pour ResNet50
-    from tensorflow.keras.applications.resnet50 import preprocess_input
     x = preprocess_input(x)
     
     # Prédiction
@@ -108,32 +134,25 @@ def analyze_weapon():
     image_path = os.path.join(UPLOAD_FOLDER, filename)
     image.save(image_path)
 
-    # Prétraitement pour ResNet
-    img_pil = keras_image.load_img(image_path, target_size=(224, 224))
-    img_array = keras_image.img_to_array(img_pil)
-    img_array = np.expand_dims(img_array, axis=0)
-    processed_img = preprocess_input(img_array)
+    # Obtenir les prédictions
+    predicted_class, category, confidence = predict_weapon_class(image_path)
 
-    # Prédiction
-    preds = model.predict(processed_img)
-    predicted_class_index = np.argmax(preds)
-    confidence = preds[0][predicted_class_index]
-
-    # Seuil de confiance
-    threshold = 0.6
+    threshold = 60.0  # même seuil que précédemment
 
     if confidence > threshold:
-        weapon_name = class_names[predicted_class_index]
         return jsonify({
             "match_found": True,
-            "weapon": {"name": weapon_name},
-            "confidence_score": float(confidence),
+            "weapon": {
+                "name": predicted_class,
+                "category": category
+            },
+            "confidence_score": confidence,
             "processed_image": image_path
         })
     else:
         return jsonify({
             "match_found": False,
             "message": "Arme inconnue ou non reconnue avec confiance suffisante.",
-            "confidence_score": float(confidence),
+            "confidence_score": confidence,
             "processed_image": image_path
         })

@@ -76,8 +76,6 @@ const Analyze = () => {
                 {result && (
                     <div className="text-white text-sm mt-2">
                         <p><strong>Nom :</strong> {result.weapon?.name || "Inconnu"}</p>
-                        <p><strong>Marque :</strong> {result.weapon?.brand || "Inconnue"}</p>
-                        <p><strong>Modèle :</strong> {result.weapon?.model || "Inconnu"}</p>
                         <p><strong>Score de confiance :</strong> {result.confidence_score ?? "Non disponible"}%</p>
                     </div>
                 )}

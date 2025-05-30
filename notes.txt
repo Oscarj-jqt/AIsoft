@@ -15,22 +15,16 @@ L’image est stockée et ajoutée à la base Mongo.
 
 3. Traitement de l’image via /analyze :
 
-L’utilisateur améliore l’image (niveaux de gris, nettoyage, etc.)
+Analyse avec un modèle entraîné ResNet50 qui va comparer avec un dataset de quelques modèles.
+Si l'arme analysée correspond avec le dataset alors le système renvoie le nom de l'arme (puis scraping price)
+Si non alors il renvoie une "identification inconnue"
 
-Le système tente un matching simple avec la base Mongo 
+Ce qu'il manque front
 
-Extraction des caractéristiques (features) de l’image uploadée → img_resized ou flattened_features
+Documenter la suite
+- Azure
+- Cas d'usage
+- README
+- Installer conteneur Docker et dataset/ aux autres (script)
 
-Pour chaque arme dans la base : récupérer les features db_features (par exemple weapon["image_features"])
-
-Calculer la distance entre les deux vecteurs de features (diff)
-
-Trouver l’arme avec la distance minimale
-
-Si cette distance est inférieure à ton seuil → match
-
-Afficher le nom/modèle/marque associés au meilleur match trouvé
-
-➕ Si correspondance trouvée → identification immédiate.
-
-
+arrondir au centième

@@ -3,4 +3,4 @@ __pycache__/
 # *.pyc
 .notes
 static/images
-dataset/
+dataset/weapons

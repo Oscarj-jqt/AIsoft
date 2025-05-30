@@ -25,6 +25,6 @@ Documenter la suite
 - Azure
 - Cas d'usage
 - README
-- Installer conteneur Docker et dataset/ aux autres (script)
+- Installer conteneur Docker et lancer commande python back/scripts/download_dataset
 
 arrondir au centième

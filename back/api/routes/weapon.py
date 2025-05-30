@@ -25,7 +25,7 @@ weapon_collection = db["Weapons"]
 MODEL_PATH = os.path.abspath(
     os.path.join(
         os.path.dirname(__file__),  
-        "..", "..", "dataset", "aisoft_resnet_model.h5"
+        "..", "..", "model", "aisoft_resnet_model.h5"
     )
 )
 model = load_model(MODEL_PATH)

@@ -3,5 +3,8 @@ __pycache__/
 # *.pyc
 .notes
 static/images
+
 dataset/weapons/*
+!dataset/weapons/.gitkeep
+
 model/

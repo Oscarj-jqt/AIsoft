@@ -18,10 +18,8 @@ def test_database():
                 for i, w in enumerate(weapons, start=1):
                     weapon_info = w.get("weapon", {})
                     name = weapon_info.get("name", "Nom inconnu")
-                    brand = weapon_info.get("brand", "Marque inconnue")
-                    model = weapon_info.get("model", "Modèle inconnu")
-                    image_path = weapon_info.get("image_path", "Pas d'image")
-                    print(f"  {i}. {name} - {brand} - {model} | Image: {image_path}")
+
+                    print(f"  {i}. {name}")
             else:
                 print("Collection 'Weapons' non trouvée.")
 

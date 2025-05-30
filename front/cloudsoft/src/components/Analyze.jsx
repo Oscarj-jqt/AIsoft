@@ -63,18 +63,21 @@ const Analyze = () => {
                     )}
                 </div>
 
-                <button
-                    className="text-white border border-white rounded-md p-2"
-                    onClick={handleAnalyze}
-                    disabled={loading}
-                >
-                    {loading ? "Analyse en cours..." : "Analyser"}
-                </button>
+                {!result && (
+                    <button
+                        className="text-white border border-white rounded-md p-2"
+                        onClick={handleAnalyze}
+                        disabled={loading}
+                    >
+                        {loading ? "Analyse en cours..." : "Analyser"}
+                    </button>
+                )}
 
                 {error && <p className="text-red-500 text-sm">{error}</p>}
 
                 {result && (
                     <div className="text-white text-sm mt-2">
+                        <h2 className="text-white font-semibold text-base mb-1">Résultat de l'analyse</h2>
                         <p><strong>Nom :</strong> {result.weapon?.name || "Inconnu"}</p>
                         <p><strong>Score de confiance :</strong> {result.confidence_score ?? "Non disponible"}%</p>
                     </div>
@@ -84,6 +87,15 @@ const Analyze = () => {
                 {result && !result.match_found && (
                     <p className="text-yellow-400 text-sm mt-2">{result.message}</p>
                 )}
+            </div>
+
+            <div className="absolute bottom-4 left-4">
+                <button
+                    className="text-white text-sm flex items-center gap-1 hover:underline"
+                    onClick={() => navigate("/home")}
+                >
+                    <span className="text-xl">↩</span> Retour à l'upload
+                </button>
             </div>
 
             <div className="flex items-center gap-3 mt-10">

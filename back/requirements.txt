@@ -13,4 +13,4 @@ numpy>=1.26.0,<2.0.0
 flask-cors==6.0.0
 tensorflow==2.19.0
 pillow==11.2.1
-icrawler==0.6.10
+# icrawler==0.6.10

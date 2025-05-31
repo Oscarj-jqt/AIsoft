@@ -14,9 +14,9 @@ UPLOAD_FOLDER = "/app/static/images"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 upload_bp = Blueprint('upload', __name__)
-
 analyze_bp = Blueprint('analyze', __name__)
 
+# Base MongoDB et collections
 db = get_database()
 users_collection = db["Users"]
 weapon_collection = db["Weapons"]
@@ -28,6 +28,7 @@ MODEL_PATH = os.path.abspath(
         "..", "..", "model", "aisoft_resnet_model.h5"
     )
 )
+
 model = load_model(MODEL_PATH)
 
 # Classe correspondante

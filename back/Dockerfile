@@ -10,6 +10,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+COPY model/aisoft_resnet_model.h5 /app/model/aisoft_resnet_model.h5
+
+
 EXPOSE 5000
 
 CMD ["python", "app.py"]

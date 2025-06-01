@@ -4,9 +4,10 @@ def test_database():
     db = get_database()
     if db is not None: 
         try:
-            # Script de reset de Weapons
+            # Script de reset de Weapons et Stock
             # db.Weapons.delete_many({})
-            # print("Tous les documents de la collection 'Weapons' ont été supprimés.")
+            # db.Stock.delete_many({})
+            # print("Tous les documents de la collection 'Weapons' et 'Stock' ont été supprimés.")
 
             
             collections = db.list_collection_names()
@@ -32,6 +33,16 @@ def test_database():
                     print(f"  {i}. Pseudo : {pseudo} | Password : {password}")
             else:
                 print("'Users' collection non trouvée.")
+
+            if "Stock" in collections:
+                stocks = list(db.Stock.find())
+                print(f"Nombre de documents dans 'Stock' : {len(stocks)}")
+                for i, s in enumerate(stocks, start=1):
+                    print(f"  {i}. Arme : {s.get('name')}")
+                    print(f"     - Magasin : {s['store']['name']} ({s['store']['address']})")
+                    print(f"     - En ligne : {s['online']['name']} ({s['online']['website']})")
+            else:
+                print("Collection 'Stock' non trouvée.")
                 
         except Exception as e:
             print(f"Erreur lors du test de la base de données : {e}")

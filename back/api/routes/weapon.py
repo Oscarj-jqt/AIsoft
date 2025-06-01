@@ -14,12 +14,13 @@ UPLOAD_FOLDER = "/app/static/images"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 upload_bp = Blueprint('upload', __name__)
-
 analyze_bp = Blueprint('analyze', __name__)
 
+# Base MongoDB et collections
 db = get_database()
 users_collection = db["Users"]
 weapon_collection = db["Weapons"]
+stock_collection = db["Stock"]
 
 # Chargement du modèle ResNet50
 MODEL_PATH = os.path.abspath(
@@ -28,18 +29,10 @@ MODEL_PATH = os.path.abspath(
         "..", "..", "model", "aisoft_resnet_model.h5"
     )
 )
+
 model = load_model(MODEL_PATH)
 
-# Classe correspondante
 class_names = ['AK47', 'Beretta', 'Glock', 'Revolver']
-
-# Dictionnaire de mapping
-category_mapping = {
-    'AK47': 'Fusil d’assaut',
-    'Beretta': 'Pistolet',
-    'Glock': 'Pistolet',
-    'Revolver': 'Revolver'
-}
 
 def predict_weapon_class(img_path):
     # Charger et préparer l'image
@@ -54,27 +47,6 @@ def predict_weapon_class(img_path):
     predicted_class = class_names[predicted_index]
     confidence = round(float(np.max(preds)) * 100, 2)
 
-
-    # Ajouter la catégorie
-    category = category_mapping.get(predicted_class, "Catégorie inconnue")
-
-    return predicted_class, category, confidence
-
-
-    # Charger l'image au format attendu (224x224 pour ResNet50)
-    img = keras_image.load_img(img_path, target_size=(224, 224))
-    x = keras_image.img_to_array(img)
-    x = np.expand_dims(x, axis=0)
-    
-    # Prétraitement pour ResNet50
-    x = preprocess_input(x)
-    
-    # Prédiction
-    preds = model.predict(x)
-    predicted_index = np.argmax(preds)
-    predicted_class = class_names[predicted_index]
-    confidence = float(np.max(preds)) * 100
-    
     return predicted_class, confidence
 
 # Indexer l'image pour éviter les doublons
@@ -135,18 +107,25 @@ def analyze_weapon():
     image.save(image_path)
 
     # Obtenir les prédictions
-    predicted_class, category, confidence = predict_weapon_class(image_path)
+    predicted_class, confidence = predict_weapon_class(image_path)
 
-    threshold = 60.0  # même seuil que précédemment
+    threshold = 75.0
 
     if confidence > threshold:
+
+        stock_info = stock_collection.find_one({"name": predicted_class})
+
+        store_address = stock_info.get("store") if stock_info else None
+        online_site = stock_info.get("online") if stock_info else None
+
         return jsonify({
             "match_found": True,
             "weapon": {
-                "name": predicted_class,
-                "category": category
+                "name": predicted_class
             },
             "confidence_score": confidence,
+            "store_address": store_address,
+            "online_site": online_site,
             "processed_image": image_path
         })
     else:

@@ -4,8 +4,8 @@ __pycache__/
 .notes
 static/images
 
-dataset/weapons/*
-!dataset/weapons/.gitkeep
+# dataset/weapons/*
+# !dataset/weapons/.gitkeep
 
-model/*
-!model/.gitkeep
+model/aisoft_resnet_model.h5
+# !model/.gitkeep

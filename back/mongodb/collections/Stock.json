@@ -1,0 +1,46 @@
+[
+  {
+    "name": "AK47",
+    "online": {
+      "name": "Heritage Airsoft",
+      "website": "https://www.heritage-airsoft.com/fr/367-replique-airsoft-ak"
+    },
+    "store": {
+      "name": "GunEvasion",
+      "address": "4 Rue du Ried, 67720 Weyersheim"
+    }
+  },
+  {
+    "name": "Beretta",
+    "online": {
+      "name": "Phenix Airsoft",
+      "website": "https://www.phenixairsoft.com/fr/23-repliques-beretta-m9-airsoft"
+    },
+    "store": {
+      "name": "GunEvasion",
+      "address": "4 Rue du Ried, 67720 Weyersheim"
+    }
+  },
+  {
+    "name": "Glock",
+    "online": {
+      "name": "Wicked Store",
+      "website": "https://wicked-store.com/fr/126-repliques-glock"
+    },
+    "store": {
+      "name": "GunEvasion",
+      "address": "4 Rue du Ried, 67720 Weyersheim"
+    }
+  },
+  {
+    "name": "Revolver",
+    "online": {
+      "name": "Airsoft Entrepôt",
+      "website": "https://www.airsoft-entrepot.fr/all-catalog/repliques/repliques-de-poing/revolvers.html?in_stock=1"
+    },
+    "store": {
+      "name": "GunEvasion",
+      "address": "4 Rue du Ried, 67720 Weyersheim"
+    }
+  }
+]

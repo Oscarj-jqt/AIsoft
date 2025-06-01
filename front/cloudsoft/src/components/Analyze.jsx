@@ -80,6 +80,24 @@ const Analyze = () => {
                         <h2 className="text-white font-semibold text-base mb-1">Résultat de l'analyse</h2>
                         <p><strong>Nom :</strong> {result.weapon?.name || "Inconnu"}</p>
                         <p><strong>Score de confiance :</strong> {result.confidence_score ?? "Non disponible"}%</p>
+
+                        {result.store_address && (
+                            <p><strong>Magasin :</strong> {result.store_address.name} ({result.store_address.address})</p>
+                        )}
+
+                        {result.online_site && (
+                            <p>
+                                <strong>Site Web :</strong>{" "}
+                                <a
+                                    href={result.online_site.website}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="text-blue-400 underline"
+                                >
+                                    {result.online_site.website}
+                                </a>
+                            </p>
+                        )}
                     </div>
                 )}
 

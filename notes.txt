@@ -27,4 +27,15 @@ Documenter la suite
 - README
 - Installer conteneur Docker et lancer commande python back/scripts/download_dataset
 
-arrondir au centième
+Télécharger le modèle entraîné
+Le modèle .h5 n’est pas inclus dans le dépôt car il est trop volumineux.
+
+Veuillez le télécharger manuellement via ce lien :
+
+lien
+Ensuite, placez-le dans le dossier suivant :
+
+bash
+```
+back/model/aisoft_resnet_model.h5
+```

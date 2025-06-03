@@ -24,11 +24,11 @@ docker-compose up --build
 
 
 ### Intégration Continue CI
-- Le projet CloudSoft utilise GitHub Actions pour automatiser le code soure et les dépendances à chaque push ou pull request sur la branche main.
+- Le projet AIsoft utilise GitHub Actions pour automatiser le code soure et les dépendances à chaque push ou pull request sur la branche main.
 
 ### Déploiement Continu CD
 
 - Le projet est conçu pour être déployé automatiquement sur Microsoft Azure via GitHub Actions
 
-Lien du déploiement 
+Le backend "cloudsoft" est hébergé sous via
 https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net

@@ -1,4 +1,4 @@
-CloudSoft
+AIsoft
 
 https://trello.com/b/MGjzE0wC/cloudsoft
 
@@ -14,7 +14,7 @@ Une application qui permet d’analyser une image uploadée, d’identifier l’
 
 - Une base de données MongoDB
 
-- Lancement de l'infrastructure depuis le dossier back/ :
+- Installation de l'infrastructure depuis le dossier back/ :
 
 ```bash
 docker-compose up --build

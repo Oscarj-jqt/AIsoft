@@ -20,15 +20,21 @@ Une application qui permet d’analyser une image uploadée, d’identifier l’
 docker-compose up --build
 ```
 
-## CI/CD avec GitHub Actions et AZURE
-
+## CI/CD et Hébergement
 
 ### Intégration Continue CI
 - Le projet AIsoft utilise GitHub Actions pour automatiser le code soure et les dépendances à chaque push ou pull request sur la branche main.
 
 ### Déploiement Continu CD
 
+
+### Hébergement Cloud 
+
 - Le projet est conçu pour être déployé automatiquement sur Microsoft Azure via GitHub Actions
 
-Le backend "cloudsoft" est hébergé sous via
+- Le serveur Flask "cloudsoft" est hébergé sous via
 https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net
+
+- Le frontend "aisoft" est hébergé sous via
+  lien
+

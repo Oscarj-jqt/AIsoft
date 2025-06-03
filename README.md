@@ -6,23 +6,24 @@ Une application qui permet d’analyser une image uploadée, d’identifier l’
 
 ## Infrastructure du projet
 
-### Dockerisation
+  ### Dockerisation
 
-  - Le projet est conteneurisé avec Docker :
+    - Le projet est conteneurisé avec Docker :
 
-  - Un service backend Flask
+    - Un service backend Flask
 
-  - Une base de données MongoDB
+    - Une base de données MongoDB
 
-  - Installation de l'infrastructure depuis le dossier back/ :
+    - Installation de l'infrastructure depuis le dossier back/ :
   
-  ```bash
+    ```bash
     docker-compose up --build
-  ```
+    ```
 
 ## CI/CD et Hébergement
 
   ### Intégration Continue CI
+  
     - Le projet AIsoft utilise GitHub Actions pour automatiser le code soure et les dépendances à chaque push ou pull       request sur la branche main.
 
   ### Hébergement Cloud 

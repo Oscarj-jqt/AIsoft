@@ -2,7 +2,7 @@ CloudSoft
 
 https://trello.com/b/MGjzE0wC/cloudsoft
 
-Une application qui permet d’analyser une image capturée (ex. GoPro pendant une partie d’Airsoft), d’identifier l’arme et ses accessoires grâce à une IA, puis de rechercher et comparer les prix de cette arme sur le web.
+Une application qui permet d’analyser une image uploadée, d’identifier l’arme grâce à une IA intégrée, puis de rechercher les sources de cette arme pour la retrouver.
 
 ## Infrastructure du projet
 

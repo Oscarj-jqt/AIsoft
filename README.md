@@ -57,4 +57,13 @@ Il expose plusieurs routes API RESTful, dont les principales sont :
 
 Le backend est conçu pour gérer l’ensemble du flux : de la réception de l’image à l’analyse et à la recherche d’informations.
 
+  ### Base de Données MongoDB
+
+  MongoDB est la base de donnée utilisée dans laquelle sont stockées :
+
+    -les informations des utilisateurs
+
+    - les informations sur les armes détectées
+
+Chaque image analysée par un utilisateur peut être associée à une entrée dans la collection weapons, permettant un suivi des analyses.
 

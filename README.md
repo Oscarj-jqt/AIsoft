@@ -61,7 +61,7 @@ Le backend est conçu pour gérer l’ensemble du flux : de la réception de l�
 
   MongoDB est la base de donnée utilisée dans laquelle sont stockées :
 
-    -les informations des utilisateurs
+    - les informations des utilisateurs
 
     - les informations sur les armes détectées
 

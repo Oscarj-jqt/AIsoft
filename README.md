@@ -42,3 +42,17 @@ Une application qui permet d’analyser une image uploadée, d’identifier l’
 
 
 ## Serveur et Base de donnée
+
+Le backend est développé avec Python Flask.
+
+Il expose plusieurs routes API RESTful, dont les principales sont :
+
+/register et /login : pour la création de compte et l'authentification sécurisée des utilisateurs (gestion des tokens).
+
+/upload : pour l’upload d’une image par un utilisateur authentifié.
+
+/analyze : déclenche l’analyse de l’image via l’IA intégrée afin d’identifier une arme.
+
+Le backend est conçu pour gérer l’ensemble du flux : de la réception de l’image à l’analyse et à la recherche d’informations.
+
+

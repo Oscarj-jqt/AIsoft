@@ -30,10 +30,10 @@ Une application qui permet d’analyser une image uploadée, d’identifier l’
 
     - Le projet est conçu pour être déployé automatiquement sur Microsoft Azure via GitHub Actions
 
-    - Le serveur Flask "cloudsoft" est hébergé sous via
+    - Le serveur Flask "cloudsoft" est hébergé avec Azure
       https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net
 
-    - Le frontend "aisoft" est hébergé sous via
+    - Le frontend "aisoft" est hébergé avec Azure
       lien
 
   ### Déploiement Continu CD

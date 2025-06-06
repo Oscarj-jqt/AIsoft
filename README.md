@@ -65,5 +65,5 @@ Le backend est conçu pour gérer l’ensemble du flux : de la réception de l�
 
     - les informations sur les armes détectées
 
-Chaque image analysée par un utilisateur peut être associée à une entrée dans la collection weapons, permettant un suivi des analyses.
+
 

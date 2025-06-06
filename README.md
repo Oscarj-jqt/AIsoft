@@ -66,4 +66,8 @@ Il expose plusieurs routes API RESTful, dont les principales sont :
     - les informations sur les armes détectées
 
 
+## Interface utilisateur
 
+  ### Frontend
+
+  Le frontend est développé avec React et Tailwind pour l'utilisation de composants graphiques en temps réel.

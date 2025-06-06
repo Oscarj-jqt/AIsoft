@@ -76,7 +76,7 @@ git clone https://github.com/Oscarj-jqt/AIsoft
 cd aisoft
 ```
 
-### Installation de l'infrastructure:
+### Démarrer l'application:
 
  **Depuis le dossier back/**
   ```bash

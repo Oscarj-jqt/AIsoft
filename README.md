@@ -90,5 +90,12 @@ cd aisoft
   npm run dev
   ```
   
+## Auteurs
 
+
+  - Oscar JACQUET - DevOps, Développeur Back End
+  - Alexis HU - Développeur Front End
+  - Aryles BEN-CHABANE - Développeur Back End
+  - Issa ABDOULAYE - Développeur Front End
+  - Hugo DA ROCHA - Développeur Front End
     

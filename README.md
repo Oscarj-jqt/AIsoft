@@ -14,11 +14,6 @@ Une application qui permet d’analyser une image uploadée, d’identifier l’
 
     - Une base de données MongoDB
 
-    - Installation de l'infrastructure depuis le dossier back/ :
-  
-    ```bash
-    docker-compose up --build
-    ```
 
 ## CI/CD et Hébergement
 
@@ -71,3 +66,25 @@ Il expose plusieurs routes API RESTful, dont les principales sont :
   ### Frontend
 
   Le frontend est développé avec React et Tailwind pour l'utilisation de composants graphiques en temps réel.
+
+
+## Installation et configuration
+
+ **Cloner le projet** :
+```bash
+git clone https://github.com/Oscarj-jqt/AIsoft
+cd aisoft
+```
+
+### Installation de l'infrastructure:
+
+ **Depuis le dossier back/**
+  ```bash
+  docker-compose up --build
+  ```
+
+  **Depuis le dossier front/cloudsoft/**
+  -Lancer le frontend
+  
+
+    

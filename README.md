@@ -84,7 +84,11 @@ cd aisoft
   ```
 
   **Depuis le dossier front/cloudsoft/**
+  
   -Lancer le frontend
+  ```bash
+  npm run dev
+  ```
   
 
     

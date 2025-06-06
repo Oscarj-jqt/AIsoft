@@ -55,7 +55,7 @@ Il expose plusieurs routes API RESTful, dont les principales sont :
 
  - analyze : déclenche l’analyse de l’image via l’IA intégrée afin d’identifier une arme.
 
-Le backend est conçu pour gérer l’ensemble du flux : de la réception de l’image à l’analyse et à la recherche d’informations.
+
 
   ### Base de Données MongoDB
 

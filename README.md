@@ -2,7 +2,6 @@
 
 **AIsoft** est une application capable d’analyser une image uploadée, d’identifier une arme grâce à une intelligence artificielle intégrée, puis de rechercher les sources de cette arme pour la retrouver.
 
----
 
 ## Infrastructure du projet
 
@@ -104,4 +103,3 @@ cd aisoft
   - Aryles BEN-CHABANE - Développeur Back End
   - Issa ABDOULAYE - Développeur Front End
   - Hugo DA ROCHA - Développeur Front End
-    

@@ -46,7 +46,7 @@ Le projet est conteneurisé avec **Docker**, et repose sur :
 
 Le backend est développé en **Python avec Flask**. Il expose plusieures routes API RESTful :
 
-- `POST /register` & `POST /login` : création de compte et **authentification sécurisée** (avec tokens).
+- `POST /register` & `POST /login` : création de compte et authentification
 - `POST /upload` : permet à l’utilisateur connecté de **téléverser une image**.
 - `POST /analyze` : lance **l’analyse par IA** entraînée pour identifier l’arme présente dans l’image puis recherche les sources 
 
@@ -54,8 +54,8 @@ Le backend est développé en **Python avec Flask**. Il expose plusieures routes
 
 La base de données utilisée est **MongoDB**, avec deux collections principales :
 
-- `users` : stocke les informations des utilisateurs (email, mot de passe, rôle...).
-- `weapons` : stocke les résultats des analyses d’armes (nom, image, origine, etc.).
+- `users` : stocke les informations des utilisateurs.
+- `weapons` : stocke les résultats des analyses d’armes
 
 ---
 
@@ -69,6 +69,7 @@ L’interface permet de :
 - Se connecter ou créer un compte.
 - Uploader une image.
 - Visualiser le résultat d’analyse en temps réel.
+- Obtenir des ressources réelles pour se procurer l'arme
 
 ---
 

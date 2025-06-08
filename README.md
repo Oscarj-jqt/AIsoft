@@ -40,15 +40,15 @@ Le projet est conteneurisé avec **Docker**, et repose sur :
 
 ---
 
-## 🖥Serveur et Base de Données
+## Serveur et Base de Données
 
-### Backend (Flask)
+### Backend
 
-Le backend est développé en **Python avec Flask**. Il expose plusieurs routes API RESTful :
+Le backend est développé en **Python avec Flask**. Il expose plusieures routes API RESTful :
 
 - `POST /register` & `POST /login` : création de compte et **authentification sécurisée** (avec tokens).
 - `POST /upload` : permet à l’utilisateur connecté de **téléverser une image**.
-- `POST /analyze` : lance **l’analyse par IA** pour identifier l’arme présente dans l’image.
+- `POST /analyze` : lance **l’analyse par IA** entraînée pour identifier l’arme présente dans l’image puis recherche les sources 
 
 ### Base de Données (MongoDB)
 

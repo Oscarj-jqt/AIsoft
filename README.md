@@ -31,8 +31,8 @@ Le projet est conteneurisé avec **Docker**, et repose sur :
 - L’infrastructure est conçue pour être **déployée automatiquement sur Microsoft Azure** via GitHub Actions.
 - **Serveur backend (Flask)** hébergé sur Azure :  
   [https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net](https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net)
-- **Frontend React** hébergé sur Azure :  
-  *Lien à compléter*
+- **Frontend statique** hébergé sur Azure :  
+  [https://calm-mushroom-0eda30b03.6.azurestaticapps.net](https://calm-mushroom-0eda30b03.6.azurestaticapps.net)
 
 ### Déploiement Continu (CD)
 

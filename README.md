@@ -1,76 +1,81 @@
-AIsoft
+# 🧠 AIsoft
 
-https://trello.com/b/MGjzE0wC/cloudsoft
+**AIsoft** est une application capable d’analyser une image uploadée, d’identifier une arme grâce à une intelligence artificielle intégrée, puis de rechercher les sources de cette arme pour la retrouver.
 
-Une application qui permet d’analyser une image uploadée, d’identifier l’arme grâce à une IA intégrée, puis de rechercher les sources de cette arme pour la retrouver.
+---
 
-## Infrastructure du projet
+## ⚙️ Infrastructure du projet
 
-  ### Dockerisation
+### 🐳 Dockerisation
 
-    - Le projet est conteneurisé avec Docker :
+Le projet est conteneurisé avec **Docker**, et repose sur :
 
-    - Un service backend Flask
+- Un service **backend** développé avec **Flask**.
+- Une base de données **MongoDB**.
 
-    - Une base de données MongoDB
+> L’infrastructure se lance via `docker-compose` depuis le dossier `back/`.
 
+---
 
-## CI/CD et Hébergement
+## 🚀 CI/CD & Hébergement
 
-  ### Intégration Continue CI
-  
-    - Le projet AIsoft utilise GitHub Actions pour automatiser le code soure et les dépendances à chaque push ou pull       request sur la branche main.
+### 🔁 Intégration Continue (CI)
 
-  ### Hébergement Cloud 
+- L’application utilise **GitHub Actions** pour automatiser :
+  - l’installation des dépendances,
+  - la vérification du code source,
+  - le déclenchement des workflows à chaque `push` ou `pull request` sur la branche `main`.
 
-    - Le projet est conçu pour être déployé automatiquement sur Microsoft Azure via GitHub Actions
+### ☁️ Hébergement Cloud (Azure)
 
-    - Le serveur Flask "cloudsoft" est hébergé avec Azure
-      https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net
+- L’infrastructure est conçue pour être **déployée automatiquement sur Microsoft Azure** via GitHub Actions.
+- **Serveur backend (Flask)** hébergé sur Azure :  
+  [https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net](https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net)
+- **Frontend React** hébergé sur Azure :  
+  *Lien à compléter*
 
-    - Le frontend "aisoft" est hébergé avec Azure
-      lien
+### 🔄 Déploiement Continu (CD)
 
-  ### Déploiement Continu CD
-  
-  - Le code déployé sur Azure est mis à jour grâce au déploiement continu configuré avec GitHub Actions
+- Le code est automatiquement mis à jour sur Azure grâce au **déploiement continu** configuré avec GitHub Actions.
 
+---
 
-## Serveur et Base de donnée
+## 🖥️ Serveur et Base de Données
 
-  ### Backend
+### 🧩 Backend (Flask)
 
-Le backend est développé avec Python Flask.
+Le backend est développé en **Python avec Flask**. Il expose plusieurs routes API RESTful :
 
-Il expose plusieurs routes API RESTful, dont les principales sont :
+- `POST /register` & `POST /login` : création de compte et **authentification sécurisée** (avec tokens).
+- `POST /upload` : permet à l’utilisateur connecté de **téléverser une image**.
+- `POST /analyze` : lance **l’analyse par IA** pour identifier l’arme présente dans l’image.
 
- - la création de compte et l'authentification sécurisée des utilisateurs
+### 🗄️ Base de Données (MongoDB)
 
- - l’upload d’une image par un utilisateur authentifié.
+La base de données utilisée est **MongoDB**, avec deux collections principales :
 
- - analyze : déclenche l’analyse de l’image via l’IA intégrée afin d’identifier une arme.
+- `users` : stocke les informations des utilisateurs (email, mot de passe, rôle...).
+- `weapons` : stocke les résultats des analyses d’armes (nom, image, origine, etc.).
 
+---
 
+## 💻 Interface Utilisateur
 
-  ### Base de Données MongoDB
+### 🎨 Frontend (React + Tailwind CSS)
 
-  MongoDB est la base de donnée utilisée dans laquelle sont stockées :
+Le frontend est développé avec **React** et utilise **Tailwind CSS** pour les composants graphiques.  
+L’interface permet de :
 
-    - les informations des utilisateurs
+- Se connecter ou créer un compte.
+- Uploader une image.
+- Visualiser le résultat d’analyse en temps réel.
 
-    - les informations sur les armes détectées
+---
 
+## ⚙️ Installation et Configuration
 
-## Interface utilisateur
+### 🔽 Cloner le projet
 
-  ### Frontend
-
-  Le frontend est développé avec React et Tailwind pour l'utilisation de composants graphiques en temps réel.
-
-
-## Installation et configuration
-
- **Cloner le projet** :
 ```bash
 git clone https://github.com/Oscarj-jqt/AIsoft
 cd aisoft

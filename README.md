@@ -1,12 +1,12 @@
-# 🧠 AIsoft
+# AIsoft
 
 **AIsoft** est une application capable d’analyser une image uploadée, d’identifier une arme grâce à une intelligence artificielle intégrée, puis de rechercher les sources de cette arme pour la retrouver.
 
 ---
 
-## ⚙️ Infrastructure du projet
+## Infrastructure du projet
 
-### 🐳 Dockerisation
+### Dockerisation
 
 Le projet est conteneurisé avec **Docker**, et repose sur :
 
@@ -17,16 +17,16 @@ Le projet est conteneurisé avec **Docker**, et repose sur :
 
 ---
 
-## 🚀 CI/CD & Hébergement
+## CI/CD & Hébergement
 
-### 🔁 Intégration Continue (CI)
+### Intégration Continue (CI)
 
 - L’application utilise **GitHub Actions** pour automatiser :
   - l’installation des dépendances,
   - la vérification du code source,
   - le déclenchement des workflows à chaque `push` ou `pull request` sur la branche `main`.
 
-### ☁️ Hébergement Cloud (Azure)
+### Hébergement Cloud (Azure)
 
 - L’infrastructure est conçue pour être **déployée automatiquement sur Microsoft Azure** via GitHub Actions.
 - **Serveur backend (Flask)** hébergé sur Azure :  
@@ -34,15 +34,15 @@ Le projet est conteneurisé avec **Docker**, et repose sur :
 - **Frontend React** hébergé sur Azure :  
   *Lien à compléter*
 
-### 🔄 Déploiement Continu (CD)
+### Déploiement Continu (CD)
 
 - Le code est automatiquement mis à jour sur Azure grâce au **déploiement continu** configuré avec GitHub Actions.
 
 ---
 
-## 🖥️ Serveur et Base de Données
+## 🖥Serveur et Base de Données
 
-### 🧩 Backend (Flask)
+### Backend (Flask)
 
 Le backend est développé en **Python avec Flask**. Il expose plusieurs routes API RESTful :
 
@@ -50,7 +50,7 @@ Le backend est développé en **Python avec Flask**. Il expose plusieurs routes 
 - `POST /upload` : permet à l’utilisateur connecté de **téléverser une image**.
 - `POST /analyze` : lance **l’analyse par IA** pour identifier l’arme présente dans l’image.
 
-### 🗄️ Base de Données (MongoDB)
+### Base de Données (MongoDB)
 
 La base de données utilisée est **MongoDB**, avec deux collections principales :
 
@@ -59,9 +59,9 @@ La base de données utilisée est **MongoDB**, avec deux collections principales
 
 ---
 
-## 💻 Interface Utilisateur
+## Interface Utilisateur
 
-### 🎨 Frontend (React + Tailwind CSS)
+### Frontend (React + Tailwind CSS)
 
 Le frontend est développé avec **React** et utilise **Tailwind CSS** pour les composants graphiques.  
 L’interface permet de :
@@ -72,9 +72,9 @@ L’interface permet de :
 
 ---
 
-## ⚙️ Installation et Configuration
+## Installation et Configuration
 
-### 🔽 Cloner le projet
+### Cloner le projet
 
 ```bash
 git clone https://github.com/Oscarj-jqt/AIsoft

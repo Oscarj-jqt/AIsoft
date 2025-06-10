@@ -1,6 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
 
+
 const Analyze = () => {
     const location = useLocation();
     const preview = location.state?.preview;
@@ -51,7 +52,14 @@ const Analyze = () => {
             <div className="flex flex-col items-center">
                 <h1 className="font-krona text-5xl text-white flex justify-center mt-5 text-outline">AIsoft</h1>
                 <div className="w-full">
-                    <div className="p-6 bg-black rounded-xl flex flex-col gap-4 max-w-lg mx-auto my-auto mt-28">
+                    <div className="p-4 bg-black rounded-xl flex flex-col gap-4 max-w-lg mx-auto my-auto mt-28">
+                        <button
+                            className="text-white text-sm flex items-center gap-1"
+                            onClick={() => navigate("/home")}
+                        >
+                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAeCAYAAAA7MK6iAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAY0lEQVR4nO3UOwqAQAxF0dmEg+5/JSooijZauJwrfopUU4Ug+E6Z5kIISUlExBOQgQFoo6M7jykqWgHbGz2AWlFXwEqc3oaXwHBXOqrGd6cFv45n80DmsLCJXwc33gMRkS85Afcbe3hgAe7gAAAAAElFTkSuQmCC" alt="long-arrow-left"></img>
+                            <span className="text-xl"></span> Back
+                        </button>
                         <div className="w-full min-h-[240px] border border-white rounded-2xl flex items-center justify-center text-white cursor-pointer bg-white/30">
                             {preview ? (
                                 <img
@@ -108,12 +116,6 @@ const Analyze = () => {
                             {result && !result.match_found && (
                                 <p className="text-yellow-400 text-sm mt-2">{result.message}</p>
                             )}
-                        <button
-                            className="text-white text-sm flex items-center gap-1 hover:underline"
-                            onClick={() => navigate("/home")}
-                        >
-                            <span className="text-xl">↩</span> Retour à l'upload
-                        </button>
                     </div>
 
                     <div className="absolute bottom-4 left-4">

@@ -74,6 +74,18 @@ L’interface permet de :
 
 ## Installation et Configuration
 
+
+### Télécharger le modèle IA requis
+L'application nécessite un modèle IA pour effectuer la fonctionnalité d'intelligence artificielle.
+
+Télécharger le modèle ResNet50 "aisoft_resnet_model.h5" ici :
+https://drive.google.com/drive/folders/1ZCgY-3rM_GiuHx4W9QfvvsxpftVQX0Uc
+
+Placez le fichier téléchargé à cet emplacement précis :
+
+aisoft/back/model/
+
+
 ### Cloner le projet
 
 ```bash

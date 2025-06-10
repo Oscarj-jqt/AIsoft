@@ -12,7 +12,7 @@ drive.mount('/content/drive')
 
 
 
-# 2️⃣ IMPORTS
+
 import os
 import tensorflow as tf
 from tensorflow.keras.preprocessing.image import ImageDataGenerator

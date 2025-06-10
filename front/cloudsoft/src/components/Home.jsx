@@ -120,12 +120,7 @@ const Home = () => {
                     </p>
                 )}
 
-                <input type="text" placeholder="Nom" onChange={(e) => setName(e.target.value)} className="input-style" />
-                <input type="text" placeholder="Marque" onChange={(e) => setBrand(e.target.value)} className="input-style" />
-                <input type="text" placeholder="Modèle" onChange={(e) => setModel(e.target.value)} className="input-style" />
-                <input type="text" placeholder="Type" onChange={(e) => setType(e.target.value)} className="input-style" />
-                <input type="number" placeholder="Prix" onChange={(e) => setPrice(e.target.value)} className="input-style" />
-                <textarea placeholder="Description" onChange={(e) => setDescription(e.target.value)} className="input-style" />
+                
                 <div>
                     <button
                         onClick={goToUpload}

@@ -32,7 +32,7 @@ app.register_blueprint(analyze_bp)
 
 @app.route('/')
 def index():
-    return 'Welcome to AIsoft!'
+    return ''
 
 if __name__ == '__main__':
     print("Flask démarre...")

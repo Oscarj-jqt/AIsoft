@@ -106,7 +106,10 @@ cd aisoft
   ```bash
   npm run dev
   ```
-  
+
+## Diaporama
+https://docs.google.com/presentation/d/1VPl8TuMas9qM_ig1xwgfaGpk4zIjXMnyNOTiHVhwIMU/edit?usp=sharing
+
 ## Auteurs
 
 

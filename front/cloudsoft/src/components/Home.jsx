@@ -80,8 +80,8 @@ const Home = () => {
             <div className="flex flex-col items-center"> 
                 <h1 className="font-krona text-5xl text-white flex justify-center mt-5 text-outline">AIsoft</h1>
                 {/* <p className="text-white text-sm mt-4 text-center">{backendMessage}</p> */}
-
-                <div className="p-6 bg-black rounded-xl flex flex-col gap-4 max-w-lg mx-auto my-auto mt-28 ">
+                <div className="w-full">
+                    <div className="p-6 bg-black rounded-xl flex flex-col gap-4 max-w-lg mx-auto my-auto mt-28 ">
                     <div
                         onDrop={handleDrop}
                         onDragOver={handleDragOver}
@@ -142,7 +142,9 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="flex items-center gap-3 mt-5 ">
+                </div>
+                
+                <div className="flex items-center gap-3 mt-5 w-[35%]">
                     <img src="/attention.svg" alt="attention" className="h-10 w-10 bg-white" />
                     <p className="font-krona text-[#C00F0C] text-sm *">
                         Notre application est conçue exclusivement pour identifier des répliques d’armes de type airsoft.

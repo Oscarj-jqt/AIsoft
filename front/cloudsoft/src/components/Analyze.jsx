@@ -47,7 +47,7 @@ const Analyze = () => {
     };
 
     return (
-        <div className="items-center justify-center min-h-screen p-6">
+        <div className="items-center justify-center min-h-screen p-6 bg-[url('/fond.jpg')] bg-cover bg-center">
             <h1 className="font-krona text-3xl text-white flex justify-center">AISOFT</h1>
 
             <div className="p-6 bg-black rounded-xl flex flex-col gap-4 max-w-lg mx-auto my-auto mt-28">

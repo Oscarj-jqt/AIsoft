@@ -116,16 +116,16 @@ const Analyze = () => {
                             {result && !result.match_found && (
                                 <p className="text-yellow-400 text-sm mt-2">{result.message}</p>
                             )}
+                        <div className="flex items-center gap-3 mt-10 ">
+                            <img src="/attention.svg" alt="attention" className="h-10 w-10 bg-white" />
+                            <p className="font-krona text-[#C00F0C] text-sm">
+                                Notre application est conçue exclusivement pour identifier des répliques d’armes de type airsoft.
+                            </p>
+                         </div>
                     </div>
-
+                        
                     <div className="absolute bottom-4 left-4">
                     </div>
-                </div>
-                <div className="flex items-center gap-3 mt-10 w-[35%]">
-                    <img src="/attention.svg" alt="attention" className="h-10 w-10 bg-white" />
-                    <p className="font-krona text-[#C00F0C] text-sm">
-                        Notre application est conçue exclusivement pour identifier des répliques d’armes de type airsoft.
-                    </p>
                 </div>
             </div>
             

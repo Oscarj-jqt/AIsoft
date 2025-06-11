@@ -1,6 +1,6 @@
 # AIsoft
 
-**AIsoft** est une application capable d’analyser une image uploadée, d’identifier une arme grâce à une intelligence artificielle intégrée, puis de rechercher les sources de cette arme pour la retrouver.
+**AIsoft** est une application capable d’analyser une image uploadée, d’identifier une arme airsoft grâce à une intelligence artificielle intégrée, puis de rechercher les sources de cette arme factice pour la retrouver.
 
 
 ## Infrastructure du projet

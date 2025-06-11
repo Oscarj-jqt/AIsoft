@@ -46,7 +46,7 @@ const Register = () => {
 
 
   return (
-    <main className="flex justify-center items-center flex-1 px-4 relative min-h-screen">
+    <main className="flex justify-center items-center flex-1 px-4 relative min-h-screen bg-[url('/fond.jpg')] bg-cover bg-center">
       <div className="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-lg z-0" />
 
       <div className="bg-white bg-opacity-90 backdrop-blur-lg rounded-2xl shadow-lg p-8 w-full sm:w-96 z-10">

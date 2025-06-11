@@ -39,3 +39,8 @@ bash
 ```
 back/model/aisoft_resnet_model.h5
 ```
+
+Perspective
+- Plus d'armes dans dataset avec entraînement IA adéquat
+- Page profil consulter les informations armes de l'user
+- Hébergement totale back + front et DB

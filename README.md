@@ -1,6 +1,6 @@
 # AIsoft
 
-**AIsoft** est une application capable d’analyser une image uploadée, d’identifier une arme grâce à une intelligence artificielle intégrée, puis de rechercher les sources de cette arme pour la retrouver.
+**AIsoft** est une application capable d’analyser une image uploadée, d’identifier une arme grâce à un modèle intégré d'intelligence artificielle basé sur ResNet50, puis de rechercher les sources de cette arme pour la retrouver.
 
 
 ## Infrastructure du projet
@@ -28,8 +28,7 @@ Le projet est conteneurisé avec **Docker**, et repose sur :
 ### Hébergement Cloud (Azure)
 
 - L’infrastructure est conçue pour être **déployée automatiquement sur Microsoft Azure** via GitHub Actions.
-- **Serveur backend (Flask)** hébergé sur Azure :  
-  [https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net](https://cloudsoft-e2h0egbma8a9agc6.francecentral-01.azurewebsites.net)
+- **Serveur backend (Flask)** hébergé sur Azure
 - **Frontend statique** hébergé sur Azure :  
   [https://calm-mushroom-0eda30b03.6.azurestaticapps.net](https://calm-mushroom-0eda30b03.6.azurestaticapps.net)
 
@@ -51,10 +50,11 @@ Le backend est développé en **Python avec Flask**. Il expose plusieures routes
 
 ### Base de Données (MongoDB)
 
-La base de données utilisée est **MongoDB**, avec deux collections principales :
+La base de données utilisée est **MongoDB**, avec trois collections :
 
 - `users` : stocke les informations des utilisateurs.
 - `weapons` : stocke les résultats des analyses d’armes
+- `stock`: stocke les adresses et site en ligne des armes
 
 ---
 
